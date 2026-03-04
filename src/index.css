@@ -3,7 +3,7 @@
 :root {
   --background-color: #ffffff;
   --foreground-color: #000000;
-
+  
   --font-sans: 'Helvetica', 'Arial',sans-serif;
 }
 
@@ -19,17 +19,33 @@ body {
   color: var(--foreground-color);
 }
 
-input {
+input, textarea {
   @apply border-b-2 border-[var(--foreground-color)] text-2xl outline-none;
 }
 
-button {
-  @apply px-4 py-2 font-bold;
-
-  background: var(--foreground-color);
-  color: var(--background-color);
+select {
+  @apply text-2xl outline-none;
 }
 
-hr {
-  @apply border-t-4 border-gray-500;
+button {
+  @apply px-4 py-2 font-bold cursor-pointer;
+
+  background: var(--foreground-color);
+  color:      var(--background-color);
+}
+
+button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold;
+}
+
+h1 {
+  @apply text-7xl;
+}
+
+h2 {
+  @apply text-3xl;
 }

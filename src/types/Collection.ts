@@ -9,6 +9,7 @@ export const SecretTypeNames: Record<SecretType, string> = {
 export type Secret = {
   type:  SecretType
   id:    string
+  name:  string
 }
 
 export type SecretText = Secret & {
@@ -17,6 +18,7 @@ export type SecretText = Secret & {
 }
 
 export type Collection = {
+  version: 1
   title:   string
   secrets: Secret[]
 }
