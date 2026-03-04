@@ -27,4 +27,7 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    allowedHosts: ['nonprolixly-unbendable-kena.ngrok-free.dev'],
+  }
 })

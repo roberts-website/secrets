@@ -6,7 +6,7 @@ import type { SecretText } from '@/types/Collection'
 
 // components.
 
-import CopyableValue from '@/components/CopyableValue'
+import SecretValue from '@/components/SecretValue'
 
 /// component.
 
@@ -15,5 +15,8 @@ export default function SecretTextDetails({
 }: {
   secret: SecretText
 }) {
-  return <CopyableValue value={secret.value} />
+  return <SecretValue
+    label='value.'
+    value={secret.value}
+  />
 }

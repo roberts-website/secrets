@@ -23,12 +23,8 @@ body {
   color: var(--foreground-color);
 }
 
-input, textarea {
+input, textarea, select {
   @apply border-b-2 border-[var(--foreground-color)] text-2xl outline-none p-1;
-}
-
-select {
-  @apply text-2xl outline-none p-1;
 }
 
 button {
@@ -40,6 +36,10 @@ button {
 
 button:disabled {
   @apply opacity-50 cursor-not-allowed;
+}
+
+button.mini {
+  @apply px-2 py-1 text-xs;
 }
 
 h1, h2, h3, h4, h5, h6 {

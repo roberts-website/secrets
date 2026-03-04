@@ -22,7 +22,7 @@ export default function Modal({
     />
     
     <div
-      className='border-2 border-[var(--foreground-color)] p-4 flex flex-col gap-8'
+      className='border-2 border-[var(--foreground-color)] bg-[var(--background-color)] p-4 flex flex-col gap-8'
       style    ={{ zIndex }}
     >
       <h2>{title}</h2>

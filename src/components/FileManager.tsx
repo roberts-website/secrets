@@ -24,7 +24,7 @@ export default function FileManager({
   collection:    Collection
   setCollection: (collection: Collection) => void
 }) {
-  return <div className='flex flex-row gap-4'>
+  return <div className='flex flex-col md:flex-row gap-4'>
     <input
       className='flex-1'
 
@@ -35,17 +35,27 @@ export default function FileManager({
 
       onChange={e => setCollection({ ...collection, title: e.target.value })}
     />
-    <IconButton
-      icon={faFileImport}
-      onClick={() => {}}
-    >
-      import.
-    </IconButton>
-    <IconButton
-      icon={faFileExport}
-      onClick={() => {}}
-    >
-      export.
-    </IconButton>
+
+    <div className='flex flex-row gap-4'>
+      <IconButton
+        className='flex-1 md:flex-none'
+
+        icon={faFileImport}
+
+        onClick={() => {}}
+      >
+        import.
+      </IconButton>
+      
+      <IconButton
+        className='flex-1 md:flex-none'
+
+        icon={faFileExport}
+        
+        onClick={() => {}}
+      >
+        export.
+      </IconButton>
+    </div>
   </div>
 }
