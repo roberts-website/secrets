@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+:root {
+  --background-color: #ffffff;
+  --foreground-color: #000000;
+
+  --font-sans: 'Helvetica', 'Arial',sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #000000;
+    --foreground-color: #ffffff;
+  }
+}
+
+body {
+  background: var(--background-color);
+  color: var(--foreground-color);
+}
