@@ -2,7 +2,9 @@
 
 :root {
   --background-color: #ffffff;
+  --background-color-2: #dddddd;
   --foreground-color: #000000;
+  --foreground-color-2: #222222;
   
   --font-sans: 'Helvetica', 'Arial',sans-serif;
 }
@@ -10,7 +12,9 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #000000;
+    --background-color-2: #222222;
     --foreground-color: #ffffff;
+    --foreground-color-2: #dddddd;
   }
 }
 
@@ -20,11 +24,11 @@ body {
 }
 
 input, textarea {
-  @apply border-b-2 border-[var(--foreground-color)] text-2xl outline-none;
+  @apply border-b-2 border-[var(--foreground-color)] text-2xl outline-none p-1;
 }
 
 select {
-  @apply text-2xl outline-none;
+  @apply text-2xl outline-none p-1;
 }
 
 button {

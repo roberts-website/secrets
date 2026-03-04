@@ -31,11 +31,15 @@ export default function SecretsListItem({
   const [isExpanded, setIsExpanded] = useState(false)
 
   return <div className='flex flex-col gap-2'>
-    <div className='text-xl font-bold'>
-      <FontAwesomeIcon
-        icon={isExpanded ? faAngleUp : faAngleDown}
+    <div
+      className='text-xl font-bold cursor-pointer'
 
-        onClick={() => setIsExpanded(!isExpanded)}
+      onClick={() => setIsExpanded(!isExpanded)}
+    >
+      <FontAwesomeIcon
+        className='mr-2'
+
+        icon={isExpanded ? faAngleUp : faAngleDown}
       />
 
       {secret.name}

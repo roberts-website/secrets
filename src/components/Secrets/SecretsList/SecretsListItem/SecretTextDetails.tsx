@@ -15,7 +15,5 @@ export default function SecretTextDetails({
 }: {
   secret: SecretText
 }) {
-  return <div>
-    <CopyableValue value={secret.value} />
-  </div>
+  return <CopyableValue value={secret.value} />
 }

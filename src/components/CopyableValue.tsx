@@ -14,7 +14,7 @@ export default function CopiableValue({
   value: string
 }) {
   return <div className='relative w-full group'>
-    <pre className='w-full overflow-x-auto text-wrap'>
+    <pre className='w-full overflow-auto text-wrap bg-[var(--background-color-2)] p-2 max-h-64'>
       {value}
     </pre>
 
