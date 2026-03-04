@@ -18,3 +18,18 @@ body {
   background: var(--background-color);
   color: var(--foreground-color);
 }
+
+input {
+  @apply border-b-2 border-[var(--foreground-color)] text-2xl outline-none;
+}
+
+button {
+  @apply px-4 py-2 font-bold;
+
+  background: var(--foreground-color);
+  color: var(--background-color);
+}
+
+hr {
+  @apply border-t-4 border-gray-500;
+}
