@@ -25,6 +25,7 @@ import SecretTextDetails from './SecretTextDetails'
 
 import IconButton from '@/components/IconButton'
 import Modal      from '@/components/Modal'
+import SecretIcon from '@/components/SecretIcon'
 
 /// component.
 
@@ -56,20 +57,24 @@ export default function SecretModal({
       <label>
         type.
       </label>
-      <select
-        value={selectedType}
+      <div className='flex flex-row gap-1 items-center'>
+        <SecretIcon secretType={selectedType} />
+        <select
+          className='flex-1'
+          value    ={selectedType}
 
-        onChange={e => setSelectedType(e.target.value as SecretType)}
-      >
-        {Object.entries(SecretTypeNames).map(([type, name]) => (
-          <option
-            key  ={type}
-            value={type}
-          >
-            {name}
-          </option>
-        ))}
-      </select>
+          onChange={e => setSelectedType(e.target.value as SecretType)}
+        >
+          {Object.entries(SecretTypeNames).map(([type, name]) => (
+            <option
+              key  ={type}
+              value={type}
+            >
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <label>
         name.
