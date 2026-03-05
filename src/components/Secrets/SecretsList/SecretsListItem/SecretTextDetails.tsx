@@ -6,7 +6,7 @@ import type { SecretText } from '@/types/Collection'
 
 // components.
 
-import SecretValue from '@/components/SecretValue'
+import SecretValue from './SecretValue'
 
 /// component.
 

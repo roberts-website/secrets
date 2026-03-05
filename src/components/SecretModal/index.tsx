@@ -28,26 +28,34 @@ import Modal      from '@/components/Modal'
 
 /// component.
 
-export default function NewSecretModal({
-  onClose,
-  onCreate,
-}: {
-  onClose:  () => void
-  onCreate: (secret: Secret) => void
-}) {
-  const [selectedType, setSelectedType] = useState<SecretType>('text')
-
-  const [secret, setSecret] = useState<Secret>({
-    type: selectedType,
+export default function SecretModal({
+  secret = {
+    type: 'text',
     id:   crypto.randomUUID(),
     name: '',
-  })
+  },
+
+  onClose,
+  onSave,
+}: {
+  secret?: Secret
+
+  onClose: () => void
+  onSave:  (secret: Secret) => void
+}) {
+  const [selectedType, setSelectedType] = useState<SecretType>('text')
+  const [valid,        setValid       ] = useState(false)
+
+  const [internalSecret, setInternalSecret] = useState<Secret>(secret)
 
   return <Modal
     title  ='new secret.'
     onClose={onClose}
   >
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 w-96'>
+      <label>
+        type.
+      </label>
       <select
         value={selectedType}
 
@@ -63,22 +71,30 @@ export default function NewSecretModal({
         ))}
       </select>
 
+      <label>
+        name.
+      </label>
       <input
-        type       ='text'
-        placeholder='name.'
+        type ='text'
+        value={internalSecret.name}
 
-        value={secret.name}
-
-        onChange={e => setSecret({ ...secret, name: e.target.value })}
+        onChange={e => setInternalSecret({
+          ...internalSecret,
+          name: e.target.value,
+        })}
       />
 
-      {secret.type === 'text' && <SecretTextDetails secret={secret as SecretText} setSecret={setSecret} />}
+      {internalSecret.type === 'text' && <SecretTextDetails
+        secret   ={internalSecret as SecretText}
+        setSecret={setInternalSecret}
+        setValid ={setValid}
+      />}
     
       <IconButton
         icon    ={faFloppyDisk}
-        disabled={!secret.name || !secret.value}
+        disabled={!internalSecret.name || !valid}
 
-        onClick={() => onCreate(secret)}
+        onClick={() => onSave(internalSecret)}
       >
         save.
       </IconButton>

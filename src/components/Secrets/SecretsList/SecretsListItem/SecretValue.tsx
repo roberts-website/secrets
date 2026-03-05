@@ -4,7 +4,6 @@ import { useState } from 'react'
 
 import {
   faCopy,
-  
   faEye,
   faEyeSlash,
 } from '@fortawesome/free-solid-svg-icons'

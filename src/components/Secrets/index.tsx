@@ -11,7 +11,7 @@ import type { Collection } from '@/types/Collection'
 
 // components.
 
-import NewSecretModal from './NewSecretModal'
+import SecretModal from '../SecretModal'
 import SecretsList    from './SecretsList'
 
 import IconButton from '@/components/IconButton'
@@ -42,10 +42,10 @@ export default function Secrets({
       setCollection={setCollection}
     />
 
-    {showingNewModal && <NewSecretModal
+    {showingNewModal && <SecretModal
       onClose={() => setShowingNewModal(false)}
 
-      onCreate={secret => {
+      onSave={secret => {
         setCollection({
           ...collection,
           secrets: [...collection.secrets, secret],

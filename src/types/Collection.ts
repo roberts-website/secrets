@@ -3,7 +3,7 @@
 export type SecretType = 'text'
 
 export const SecretTypeNames: Record<SecretType, string> = {
-  'text': 'Text',
+  'text': 'plain text.',
 }
 
 export type Secret = {
