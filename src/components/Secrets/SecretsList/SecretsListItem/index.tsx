@@ -30,20 +30,16 @@ import IconButton from '@/components/IconButton'
 export default function SecretsListItem({
   secret,
 
-  setIsEditing,
-  setEditingID,
-
   onMoveUp,
   onMoveDown,
+  onEdit,
   onDelete,
 }: {
   secret: Secret
 
-  setIsEditing: (isEditing: boolean) => void
-  setEditingID: (editingID: string ) => void
-
   onMoveUp:   () => void
   onMoveDown: () => void
+  onEdit:     () => void
   onDelete:   () => void
 }) {
   const [isExpanded, setIsExpanded  ] = useState<boolean>(false)
@@ -63,7 +59,7 @@ export default function SecretsListItem({
           className='mini'
           icon     ={faAngleUp}
 
-          onClick={() => onMoveUp(secret.id)}
+          onClick={() => onMoveUp()}
         >
           move up.
         </IconButton>
@@ -72,7 +68,7 @@ export default function SecretsListItem({
           className='mini'
           icon     ={faAngleDown}
 
-          onClick={() => onMoveDown(secret.id)}
+          onClick={() => onMoveDown()}
         >
           move down.
         </IconButton>
@@ -81,10 +77,7 @@ export default function SecretsListItem({
           className='mini'
           icon     ={faPencil}
 
-          onClick={() => {
-            setIsEditing(true)
-            setEditingID(secret.id)
-          }}
+          onClick={() => onEdit()}
         >
           edit.
         </IconButton>
@@ -93,7 +86,7 @@ export default function SecretsListItem({
           className='mini'
           icon     ={faTrash}
 
-          onClick={() => onDelete(secret.id)}
+          onClick={() => onDelete()}
         >
           delete.
         </IconButton>

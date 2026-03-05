@@ -32,8 +32,10 @@ export default function SecretsList({
         key   ={secret.id}
         secret={secret}
 
-        setIsEditing={setIsEditing}
-        setEditingID={setEditingID}
+        onEdit={() => {
+          setIsEditing(true)
+          setEditingID(secret.id)
+        }}
 
         onMoveUp={() => {
           const index = collection.secrets.findIndex(s => s.id === secret.id)
