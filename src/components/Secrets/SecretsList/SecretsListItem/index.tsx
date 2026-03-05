@@ -48,50 +48,42 @@ export default function SecretsListItem({
   return <div className='flex flex-col gap-2'>
     <div className='flex flex-row gap-2'>
       <div
-        className='flex flex-row gap-2 flex-1 text-xl font-bold cursor-pointer'
+        className='flex flex-row gap-2 flex-1 text-xl font-bold cursor-pointer items-center'
         onClick  ={() => setIsExpanded(!isExpanded)}
       >
         <FontAwesomeIcon icon={isExpanded ? faAngleUp : faAngleDown} />
+        
         <SecretIcon secretType={secret.type} />
-        <div className='flex-1'>{secret.name}</div>
+        
+        <div className='flex-1'>
+          {secret.name}
+        </div>
       </div>
 
-      <div className='flex flex-row gap-1'>
+      <div className='flex flex-row gap-1 items-center'>
         <IconButton
           className='mini'
           icon     ={faAngleUp}
-
-          onClick={() => onMoveUp()}
-        >
-          move up.
-        </IconButton>
+          onClick  ={onMoveUp}
+        />
 
         <IconButton
           className='mini'
           icon     ={faAngleDown}
-
-          onClick={() => onMoveDown()}
-        >
-          move down.
-        </IconButton>
+          onClick  ={onMoveDown}
+        />
 
         <IconButton
           className='mini'
           icon     ={faPencil}
-
-          onClick={() => onEdit()}
-        >
-          edit.
-        </IconButton>
+          onClick  ={onEdit}
+        />
 
         <IconButton
           className='mini'
           icon     ={faTrash}
-
-          onClick={() => onDelete()}
-        >
-          delete.
-        </IconButton>
+          onClick  ={onDelete}
+        />
       </div>
     </div>
 

@@ -7,17 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 /// component.
 
 export default function IconButton({
-  children,
   icon,
 
+  children  = undefined,
   className = '',
   disabled  = false,
 
   onClick = () => {},
 }: {
-  children: React.ReactNode
-  icon:     IconProp
+  icon: IconProp
 
+  children?:  React.ReactNode
   disabled?:  boolean
   className?: string
 
@@ -30,7 +30,7 @@ export default function IconButton({
     onClick ={onClick}
   >
     <FontAwesomeIcon
-      className='mr-2'
+      className={`${children ? 'mr-2' : ''}`}
       icon     ={icon}
     />
     {children}

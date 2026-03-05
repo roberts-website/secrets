@@ -33,17 +33,13 @@ export default function SecretValue({
           className='mini'
           icon     ={visible ? faEyeSlash : faEye}
           onClick  ={() => setVisible(!visible)}
-        >
-          {visible ? 'hide.' : 'show.'}
-        </IconButton>
+        />
 
         <IconButton
           className='mini'
           icon     ={faCopy}
           onClick  ={() => navigator.clipboard.writeText(value)}
-        >
-          copy.
-        </IconButton>
+        />
       </div>
     </div>
 
