@@ -24,6 +24,7 @@ import type {
 import SecretTextDetails from './SecretTextDetails'
 
 import IconButton from '@/components/IconButton'
+import SecretIcon from '@/components/SecretIcon'
 
 /// component.
 
@@ -51,6 +52,7 @@ export default function SecretsListItem({
         onClick  ={() => setIsExpanded(!isExpanded)}
       >
         <FontAwesomeIcon icon={isExpanded ? faAngleUp : faAngleDown} />
+        <SecretIcon secretType={secret.type} />
         <div className='flex-1'>{secret.name}</div>
       </div>
 
