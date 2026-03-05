@@ -1,6 +1,6 @@
 /// external dependencies.
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import {
   faFileExport,
@@ -15,7 +15,9 @@ import type { Collection } from '@/types/Collection'
 
 // components.
 
+import ErrorModal from '@/components/ErrorModal'
 import IconButton from '@/components/IconButton'
+import Waiting from '@/components/Waiting'
 
 /// helpers.
 
@@ -43,6 +45,35 @@ function saveAsFile(collection: Collection, filename: string | null): void {
   URL.revokeObjectURL(url)
 }
 
+function isCollection(value: unknown): value is Collection {
+  if (!value || typeof value !== 'object')
+    return false
+
+  const o = value as Record<string, unknown>
+
+  if (o.version !== 1 || typeof o.title !== 'string' || !Array.isArray(o.secrets))
+    return false
+
+  return o.secrets.every(s => 
+    s
+    && typeof s === 'object'
+    && typeof (s as Record<string, unknown>).type === 'string'
+    && typeof (s as Record<string, unknown>).id   === 'string'
+    && typeof (s as Record<string, unknown>).name === 'string'
+  )
+}
+
+async function loadFromFile(file: File): Promise<Collection> {
+  const text = await file.text()
+
+  const data = JSON.parse(text) as unknown
+
+  if (!isCollection(data))
+    throw new Error('Invalid file format')
+
+  return data
+}
+
 /// component.
 
 export default function FileManager({
@@ -52,7 +83,41 @@ export default function FileManager({
   collection:    Collection
   setCollection: (collection: Collection) => void
 }) {
-  const [filename, setFilename] = useState<string | null>(null)
+  const [filename,        setFilename] = useState<string | null>(null)
+  const [showImportError, setShowImportError] = useState(false)
+  const [importing,       setImporting] = useState(false)
+
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleImportClick = () => {
+    setShowImportError(false)
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+
+    e.target.value = ''
+
+    if (!file) return
+
+    setImporting(true)
+    setShowImportError(false)
+
+    try {
+      const loaded = await loadFromFile(file)
+
+      setCollection(loaded)
+
+      const base = file.name.replace(/\.(secrets|json)$/i, '')
+      
+      setFilename(file.name.endsWith('.secrets') ? file.name : `${base}.secrets`)
+    } catch {
+      setShowImportError(true)
+    } finally {
+      setImporting(false)
+    }
+  }
 
   return <div className='flex flex-col md:flex-row gap-4'>
     <input
@@ -69,13 +134,21 @@ export default function FileManager({
       })}
     />
 
+    <input
+      ref={fileInputRef}
+      type='file'
+      accept='.secrets,.json'
+      className='hidden'
+      onChange={handleFileChange}
+    />
+
     <div className='flex flex-row gap-4'>
       <IconButton
         className='flex-1 md:flex-none'
 
         icon={faFileImport}
 
-        onClick={() => {}}
+        onClick={handleImportClick}
       >
         import.
       </IconButton>
@@ -90,5 +163,12 @@ export default function FileManager({
         export.
       </IconButton>
     </div>
+
+    {showImportError && <ErrorModal
+      error  ='this file does not appear to be a secrets file.'
+      onClose={() => setShowImportError(false)}
+    />}
+
+    {importing && <Waiting zIndex={2} />}
   </div>
 }
