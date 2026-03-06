@@ -12,7 +12,6 @@ import {
 import type { SecretSSHKey } from '@/types/Collection'
 
 import type {
-  SSHKeyPair,
   SSHKeyPairAlgorithm,
   SSHKeyPairECDSACurve,
   SSHKeyPairRSAKeySize,
@@ -22,7 +21,14 @@ import {
   SSHKeyPairAlgorithmNames,
   SSHKeyPairECDSACurveNames,
   SSHKeyPairRSAKeySizeNames,
+  generateECDSAKeyPair,
+  generateEd25519KeyPair,
+  generateRSAKeyPair,
 } from '@/types/SSHKeyPair'
+
+// components.
+
+import Waiting from '@/components/Waiting'
 
 /// component.
 
@@ -37,16 +43,16 @@ export default function SecretSSHKeyDetails({
   setSecret: (secret: SecretSSHKey) => void
   setValid:  (valid: boolean) => void
 }) {
-  const [source,    setSource   ] = useState<'new' | 'existing'>('new')
-  const [algorithm, setAlgorithm] = useState<SSHKeyPairAlgorithm>('ed25519')
-  const [keySize,   setKeySize  ] = useState<SSHKeyPairRSAKeySize>(2048)
-  const [curve,     setCurve    ] = useState<SSHKeyPairECDSACurve>(256)
+  const [algorithm,  setAlgorithm ] = useState<SSHKeyPairAlgorithm >('ed25519')
+  const [curve,      setCurve     ] = useState<SSHKeyPairECDSACurve>(256      )
+  const [generating, setGenerating] = useState<boolean             >(false    )
+  const [keySize,    setKeySize   ] = useState<SSHKeyPairRSAKeySize>(2048     )
+  const [source,     setSource    ] = useState<'new' | 'existing'  >('new'    )
 
   useEffect(
     () => {
       if (source == 'new') {
         setValid(true)
-
         return
       }
       
@@ -59,7 +65,66 @@ export default function SecretSSHKeyDetails({
     ],
   )
 
+  useEffect(
+    () => {
+      if (source == 'new') {
+        setGenerating(true)
+
+        switch (algorithm) {
+          case 'rsa':
+            generateRSAKeyPair(keySize).then(keyPair => {
+              setSecret({
+                type:    'ssh-key',
+                id:      crypto.randomUUID(),
+                name:    '',
+                public:  keyPair.public,
+                private: keyPair.private,
+              })
+
+              setGenerating(false)
+            })
+            
+            break
+          case 'ecdsa':
+            generateECDSAKeyPair(curve).then(keyPair => {
+              setSecret({
+                type:    'ssh-key',
+                id:      crypto.randomUUID(),
+                name:    '',
+                public:  keyPair.public,
+                private: keyPair.private,
+              })
+
+              setGenerating(false)
+            })
+            break
+          case 'ed25519':
+            generateEd25519KeyPair().then(keyPair => {
+              setSecret({
+                type:    'ssh-key',
+                id:      crypto.randomUUID(),
+                name:    '',
+                public:  keyPair.public,
+                private: keyPair.private,
+              })
+
+              setGenerating(false)
+            })
+            break
+          default:
+            throw new Error(`unknown algorithm. \`${algorithm}\``)
+        }
+
+        setGenerating(false)
+      }
+      
+      setGenerating(false)
+    }, [source, algorithm, keySize, curve],
+  )
+
   return <>
+    {generating && <Waiting zIndex={2} />}
+
     <div className='flex flex-row'>
       <div
         className={`flex-1 border-1 p-2 text-center font-bold cursor-pointer border-[var(--foreground-color)] ${source === 'new' ? 'bg-[var(--foreground-color)] text-[var(--background-color)]' : ''}`}

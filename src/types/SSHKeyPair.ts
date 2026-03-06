@@ -1,3 +1,7 @@
+/// external dependencies.
+
+import { SSH } from '@peculiar/ssh'
+
 /// types.
 
 export type SSHKeyPair = {
@@ -26,14 +30,29 @@ export const SSHKeyPairECDSACurveNames: Record<SSHKeyPairECDSACurve, string> = {
   '521': 'p-521.',
 }
 
-export function generateRSAKeyPair(keySize: SSHKeyPairRSAKeySize): SSHKeyPair {
-  // TODO
+export async function generateRSAKeyPair(keySize: SSHKeyPairRSAKeySize): Promise<SSHKeyPair> {
+  const keyPair = await SSH.createKeyPair({name: 'rsa', modulusLength: keySize})
+
+  return {
+    public:  await keyPair.publicKey .toSSH(),
+    private: await keyPair.privateKey.toSSH(),
+  }
 }
 
-export function generateECDSAKeyPair(curve: SSHKeyPairECDSACurve): SSHKeyPair {
-  // TODO
+export async function generateECDSAKeyPair(curve: SSHKeyPairECDSACurve): Promise<SSHKeyPair> {
+  const keyPair = await SSH.createKeyPair(`ecdsa-p${curve}`)
+
+  return {
+    public:  await keyPair.publicKey .toSSH(),
+    private: await keyPair.privateKey.toSSH(),
+  }
 }
 
-export function generateEd25519KeyPair(): SSHKeyPair {
-  // TODO
+export async function generateEd25519KeyPair(): Promise<SSHKeyPair> {
+  const keyPair = await SSH.createKeyPair({name: 'ed25519'})
+
+  return {
+    public:  await keyPair.publicKey .toSSH(),
+    private: await keyPair.privateKey.toSSH(),
+  }
 }

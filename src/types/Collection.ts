@@ -1,3 +1,9 @@
+/// internal dependencies.
+
+import type {
+  SSHKeyPairAlgorithm,
+} from '@/types/SSHKeyPair'
+
 /// types.
 
 export type SecretType = 'plain-text' | 'ssh-key'
@@ -19,9 +25,9 @@ export type SecretPlainText = Secret & {
 }
 
 export type SecretSSHKey = Secret & {
-  type:    'ssh-key'
-  public:  string
-  private: string
+  type:      'ssh-key'
+  public:    string
+  private:   string
 }
 
 export type Collection = {

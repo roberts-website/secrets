@@ -1,7 +1,19 @@
+/// external dependencies.
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+
+/// internal dependencies.
+
+// app.
+
 import App from './App.tsx'
+
+// styles.
+
+import './index.css'
+
+/// main.
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
