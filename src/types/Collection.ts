@@ -29,3 +29,25 @@ export type Collection = {
   title:   string
   secrets: Secret[]
 }
+
+export function newSecret(type: SecretType): Secret {
+  switch (type) {
+    case 'plain-text':
+      return {
+        id:    crypto.randomUUID(),
+        type:  'plain-text',
+        name:  '',
+        value: '',
+      } as SecretPlainText
+    case 'ssh-key':
+      return {
+        id:      crypto.randomUUID(),
+        type:    'ssh-key',
+        name:    '',
+        public:  '',
+        private: '',
+      } as SecretSSHKey
+    default:
+      throw new Error(`unknown secret type. \`${type}\``)
+  }
+}

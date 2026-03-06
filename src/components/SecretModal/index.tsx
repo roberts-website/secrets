@@ -16,9 +16,10 @@ import type {
   SecretSSHKey,
 } from '@/types/Collection'
 
-// data.
-
-import { SecretTypeNames } from '@/types/Collection'
+import {
+  SecretTypeNames,
+  newSecret,
+} from '@/types/Collection'
 
 // components.
 
@@ -32,84 +33,66 @@ import SecretIcon from '@/components/SecretIcon'
 /// component.
 
 export default function SecretModal({
-  secret = {
-    type: 'plain-text',
-    id:   crypto.randomUUID(),
-    name: '',
-  },
+  secret,
 
   onClose,
   onSave,
 }: {
-  secret?: Secret
+  secret?: Secret | undefined
 
   onClose: () => void
   onSave:  (secret: Secret) => void
 }) {
+  if (!secret) {
+    secret = newSecret('plain-text')
+  }
+
   const [valid,          setValid         ] = useState(false)
-  const [internalSecret, setInternalSecret] = useState<Secret>(secret)
+  const [internalSecret, setInternalSecret] = useState<Secret>(secret ?? newSecret('plain-text'))
 
   return <Modal
     title  ='new secret.'
     onClose={onClose}
   >
     <div className='flex flex-col gap-4 w-96'>
-      <label>
-        type.
-      </label>
-      <div className='flex flex-row gap-1 items-center'>
-        <SecretIcon secretType={internalSecret.type} />
-        <select
-          className='flex-1'
-          value    ={internalSecret.type}
+      <div className='flex flex-col gap-1'>
+        <label>
+          type.
+        </label>
+        <div className='flex flex-row gap-1 items-center'>
+          <SecretIcon secretType={internalSecret.type} />
+          <select
+            className='flex-1'
+            value    ={internalSecret.type}
 
-          onChange={e => {
-            switch (e.target.value) {
-              case 'plain-text':
-                setInternalSecret({
-                  id:    crypto.randomUUID(),
-                  type:  'plain-text',
-                  name:  '',
-                  value: '',
-                } as SecretPlainText)
-                break
-              case 'ssh-key':
-                setInternalSecret({
-                  id:      crypto.randomUUID(),
-                  type:    'ssh-key',
-                  name:    '',
-                  public:  '',
-                  private: '',
-                } as SecretSSHKey)
-                break
-              default:
-                throw new Error(`unknown secret type. \`${e.target.value}\``)
-            }
-          }}
-        >
-          {Object.entries(SecretTypeNames).map(([type, name]) => (
-            <option
-              key  ={type}
-              value={type}
-            >
-              {name}
-            </option>
-          ))}
-        </select>
+            onChange={e => setInternalSecret(newSecret(e.target.value as SecretType))}
+          >
+            {Object.entries(SecretTypeNames).map(([type, name]) => (
+              <option
+                key  ={type}
+                value={type}
+              >
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <label>
-        name.
-      </label>
-      <input
-        type ='text'
-        value={internalSecret.name}
+      <div className='flex flex-col gap-1'>
+        <label>
+          name.
+        </label>
+        <input
+          type ='text'
+          value={internalSecret.name}
 
-        onChange={e => setInternalSecret({
-          ...internalSecret,
-          name: e.target.value,
-        })}
-      />
+          onChange={e => setInternalSecret({
+            ...internalSecret,
+            name: e.target.value,
+          })}
+        />
+      </div>
 
       {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
         secret   ={internalSecret as SecretPlainText}

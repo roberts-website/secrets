@@ -11,6 +11,19 @@ import {
 
 import type { SecretSSHKey } from '@/types/Collection'
 
+import type {
+  SSHKeyPair,
+  SSHKeyPairAlgorithm,
+  SSHKeyPairECDSACurve,
+  SSHKeyPairRSAKeySize,
+} from '@/types/SSHKeyPair'
+
+import {
+  SSHKeyPairAlgorithmNames,
+  SSHKeyPairECDSACurveNames,
+  SSHKeyPairRSAKeySizeNames,
+} from '@/types/SSHKeyPair'
+
 /// component.
 
 export default function SecretSSHKeyDetails({
@@ -24,28 +37,131 @@ export default function SecretSSHKeyDetails({
   setSecret: (secret: SecretSSHKey) => void
   setValid:  (valid: boolean) => void
 }) {
-  setValid(secret.public.length > 0 && secret.private.length > 0)
+  const [source,    setSource   ] = useState<'new' | 'existing'>('new')
+  const [algorithm, setAlgorithm] = useState<SSHKeyPairAlgorithm>('ed25519')
+  const [keySize,   setKeySize  ] = useState<SSHKeyPairRSAKeySize>(2048)
+  const [curve,     setCurve    ] = useState<SSHKeyPairECDSACurve>(256)
+
+  useEffect(
+    () => {
+      if (source == 'new') {
+        setValid(true)
+
+        return
+      }
+      
+      setValid(secret.public.length > 0 && secret.private.length > 0)
+    },
+    [
+      source,
+      secret.public,
+      secret.private,
+    ],
+  )
 
   return <>
-    <label>
-      public key.
-    </label>
-    <textarea
-      className='font-mono'
-      
-      value={secret.public}
-      
-      onChange={event => setSecret({ ...secret, public: event.target.value })}
-    />
+    <div className='flex flex-row'>
+      <div
+        className={`flex-1 border-1 p-2 text-center font-bold cursor-pointer border-[var(--foreground-color)] ${source === 'new' ? 'bg-[var(--foreground-color)] text-[var(--background-color)]' : ''}`}
+        onClick  ={() => setSource('new')}
+      >
+        new.
+      </div>
+      <div
+        className={`flex-1 border-1 p-2 text-center font-bold cursor-pointer border-[var(--foreground-color)] ${source === 'existing' ? 'bg-[var(--foreground-color)] text-[var(--background-color)]' : ''}`}
+        onClick  ={() => setSource('existing')}>
+        existing.
+      </div>
+    </div>
 
-    <label>
-      private key.
-    </label>
-    <textarea
-      className='font-mono'
-      value={secret.private}
-      
-      onChange={event => setSecret({ ...secret, private: event.target.value })}
-    />
+    {source === 'new' && <>
+      <div className='flex flex-col gap-1'>
+        <label>
+          algorithm.
+        </label>
+        <select
+          value   ={algorithm}
+          onChange={event => setAlgorithm(event.target.value as SSHKeyPairAlgorithm)}
+        >
+          {Object.entries(SSHKeyPairAlgorithmNames).map(([algorithm, name]) => (
+            <option
+              key  ={algorithm}
+              value={algorithm}
+            >
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {algorithm === 'rsa' && <>
+        <div className='flex flex-col gap-1'>
+          <label>
+            key size.
+          </label>
+          <select
+            value   ={keySize}
+            onChange={event => setKeySize(parseInt(event.target.value) as SSHKeyPairRSAKeySize)}
+          >
+            {Object.entries(SSHKeyPairRSAKeySizeNames).map(([keySize, name]) => (
+              <option
+                key  ={keySize}
+                value={keySize}
+              >
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </>}
+
+      {algorithm === 'ecdsa' && <>
+        <div className='flex flex-col gap-1'>
+          <label>
+            curve.
+          </label>
+          <select
+            value   ={curve}
+            onChange={event => setCurve(parseInt(event.target.value) as SSHKeyPairECDSACurve)}
+          >
+            {Object.entries(SSHKeyPairECDSACurveNames).map(([curve, name]) => (
+              <option
+                key  ={curve}
+                value={curve}
+              >
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </>}
+    </>}
+
+    {source === 'existing' && <>
+      <div className='flex flex-col gap-1'>
+        <label>
+          public key.
+        </label>
+        <textarea
+          className='font-mono'
+          
+          value={secret.public}
+          
+          onChange={event => setSecret({ ...secret, public: event.target.value })}
+        />
+      </div>
+
+      <div className='flex flex-col gap-1'>
+        <label>
+          private key.
+        </label>
+        <textarea
+          className='font-mono'
+          value={secret.private}
+          
+          onChange={event => setSecret({ ...secret, private: event.target.value })}
+        />
+      </div>
+    </>}
   </>
 }

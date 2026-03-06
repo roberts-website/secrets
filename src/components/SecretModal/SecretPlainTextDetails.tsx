@@ -1,3 +1,7 @@
+/// external dependencies.
+
+import { useEffect } from 'react'
+
 /// internal dependencies.
 
 // types.
@@ -15,19 +19,19 @@ export default function SecretPlainTextDetails({
   setSecret: (secret: SecretPlainText) => void
   setValid:  (valid: boolean) => void
 }) {
-  return <>
+  useEffect(
+    () => setValid(secret.value.length > 0),
+    [secret.value]
+  )
+
+  return <div className='flex flex-col gap-1'>
     <label>
       value.
     </label>
     <textarea
       className='font-mono'
-      
-      value={secret.value}
-      
-      onChange={e => {
-        setSecret({ ...secret, value: e.target.value })
-        setValid(e.target.value.length > 0)
-      }}
+      value    ={secret.value}
+      onChange ={event => setSecret({ ...secret, value: event.target.value })}
     />
-  </>
+  </div>
 }
