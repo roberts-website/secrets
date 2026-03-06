@@ -12,7 +12,8 @@ import type {
 
   Secret,
 
-  SecretText,
+  SecretPlainText,
+  SecretSSHKey,
 } from '@/types/Collection'
 
 // data.
@@ -21,7 +22,8 @@ import { SecretTypeNames } from '@/types/Collection'
 
 // components.
 
-import SecretTextDetails from './SecretTextDetails'
+import SecretPlainTextDetails from './SecretPlainTextDetails'
+import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
 
 import IconButton from '@/components/IconButton'
 import Modal      from '@/components/Modal'
@@ -31,7 +33,7 @@ import SecretIcon from '@/components/SecretIcon'
 
 export default function SecretModal({
   secret = {
-    type: 'text',
+    type: 'plain-text',
     id:   crypto.randomUUID(),
     name: '',
   },
@@ -44,9 +46,7 @@ export default function SecretModal({
   onClose: () => void
   onSave:  (secret: Secret) => void
 }) {
-  const [selectedType, setSelectedType] = useState<SecretType>('text')
-  const [valid,        setValid       ] = useState(false)
-
+  const [valid,          setValid         ] = useState(false)
   const [internalSecret, setInternalSecret] = useState<Secret>(secret)
 
   return <Modal
@@ -58,12 +58,34 @@ export default function SecretModal({
         type.
       </label>
       <div className='flex flex-row gap-1 items-center'>
-        <SecretIcon secretType={selectedType} />
+        <SecretIcon secretType={internalSecret.type} />
         <select
           className='flex-1'
-          value    ={selectedType}
+          value    ={internalSecret.type}
 
-          onChange={e => setSelectedType(e.target.value as SecretType)}
+          onChange={e => {
+            switch (e.target.value) {
+              case 'plain-text':
+                setInternalSecret({
+                  id:    crypto.randomUUID(),
+                  type:  'plain-text',
+                  name:  '',
+                  value: '',
+                } as SecretPlainText)
+                break
+              case 'ssh-key':
+                setInternalSecret({
+                  id:      crypto.randomUUID(),
+                  type:    'ssh-key',
+                  name:    '',
+                  public:  '',
+                  private: '',
+                } as SecretSSHKey)
+                break
+              default:
+                throw new Error(`unknown secret type. \`${e.target.value}\``)
+            }
+          }}
         >
           {Object.entries(SecretTypeNames).map(([type, name]) => (
             <option
@@ -89,8 +111,14 @@ export default function SecretModal({
         })}
       />
 
-      {internalSecret.type === 'text' && <SecretTextDetails
-        secret   ={internalSecret as SecretText}
+      {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
+        secret   ={internalSecret as SecretPlainText}
+        setSecret={setInternalSecret}
+        setValid ={setValid}
+      />}
+
+      {internalSecret.type === 'ssh-key' && <SecretSSHKeyDetails
+        secret   ={internalSecret as SecretSSHKey}
         setSecret={setInternalSecret}
         setValid ={setValid}
       />}

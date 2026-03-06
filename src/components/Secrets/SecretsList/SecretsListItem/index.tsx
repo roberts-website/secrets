@@ -16,12 +16,14 @@ import {
 
 import type {
   Secret,
-  SecretText,
+  SecretPlainText,
+  SecretSSHKey,
 } from '@/types/Collection'
 
 // components.
 
-import SecretTextDetails from './SecretTextDetails'
+import SecretPlainTextDetails from './SecretPlainTextDetails'
+import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
 
 import IconButton from '@/components/IconButton'
 import SecretIcon from '@/components/SecretIcon'
@@ -87,6 +89,7 @@ export default function SecretsListItem({
       </div>
     </div>
 
-    {isExpanded && secret.type === 'text' && <SecretTextDetails secret={secret as SecretText} />}
+    {isExpanded && secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret as SecretPlainText} />}
+    {isExpanded && secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret as SecretSSHKey   } />}
   </div>
 }

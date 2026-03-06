@@ -2,7 +2,10 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { faAlignLeft } from '@fortawesome/free-solid-svg-icons'
+import {
+  faAlignLeft,
+  faKey,
+} from '@fortawesome/free-solid-svg-icons'
 
 /// internal dependencies.
 
@@ -18,8 +21,10 @@ export default function SecretIcon({
   secretType: SecretType
 }) {
   switch (secretType) {
-    case 'text':
+    case 'plain-text':
       return <FontAwesomeIcon icon={faAlignLeft} />
+    case 'ssh-key':
+      return <FontAwesomeIcon icon={faKey} />
     default:
       return null
   }

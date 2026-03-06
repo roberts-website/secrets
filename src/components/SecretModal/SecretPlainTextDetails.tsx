@@ -2,17 +2,17 @@
 
 // types.
 
-import type { SecretText } from '@/types/Collection'
+import type { SecretPlainText } from '@/types/Collection'
 
 /// component.
 
-export default function SecretTextDetails({
+export default function SecretPlainTextDetails({
   secret,
   setSecret,
   setValid,
 }: {
-  secret:    SecretText
-  setSecret: (secret: SecretText) => void
+  secret:    SecretPlainText
+  setSecret: (secret: SecretPlainText) => void
   setValid:  (valid: boolean) => void
 }) {
   return <>

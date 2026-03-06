@@ -1,9 +1,10 @@
 /// types.
 
-export type SecretType = 'text'
+export type SecretType = 'plain-text' | 'ssh-key'
 
 export const SecretTypeNames: Record<SecretType, string> = {
-  'text': 'plain text.',
+  'plain-text': 'plain text.',
+  'ssh-key':    'ssh key.',
 }
 
 export type Secret = {
@@ -12,9 +13,15 @@ export type Secret = {
   name:  string
 }
 
-export type SecretText = Secret & {
-  type:  'text'
+export type SecretPlainText = Secret & {
+  type:  'plain-text'
   value: string
+}
+
+export type SecretSSHKey = Secret & {
+  type:    'ssh-key'
+  public:  string
+  private: string
 }
 
 export type Collection = {

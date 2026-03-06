@@ -2,7 +2,7 @@
 
 // types.
 
-import type { SecretText } from '@/types/Collection'
+import type { SecretPlainText } from '@/types/Collection'
 
 // components.
 
@@ -10,10 +10,10 @@ import SecretValue from './SecretValue'
 
 /// component.
 
-export default function SecretTextDetails({
+export default function SecretPlainTextDetails({
   secret,
 }: {
-  secret: SecretText
+  secret: SecretPlainText
 }) {
   return <SecretValue
     label='value.'
