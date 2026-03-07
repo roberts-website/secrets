@@ -74,7 +74,7 @@ export default function SecretsList({
       
       onClose={() => setIsEditing(false)}
       
-      onSave={secret => {
+      onUpdate={secret => {
         const updatedSecrets = collection.secrets.map(s => s.id === editingID ? secret : s)
 
         setCollection({

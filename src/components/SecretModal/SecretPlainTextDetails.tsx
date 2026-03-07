@@ -8,6 +8,10 @@ import { useEffect } from 'react'
 
 import type { SecretPlainText } from '@/types/Collection'
 
+// components.
+
+import WrappedField from '@/components/WrappedField'
+
 /// component.
 
 export default function SecretPlainTextDetails({
@@ -24,14 +28,11 @@ export default function SecretPlainTextDetails({
     [secret.value]
   )
 
-  return <div className='flex flex-col gap-1'>
-    <label>
-      value.
-    </label>
+  return <WrappedField label='value.'>
     <textarea
       className='font-mono'
       value    ={secret.value}
       onChange ={event => setSecret({ ...secret, value: event.target.value })}
     />
-  </div>
+  </WrappedField>
 }

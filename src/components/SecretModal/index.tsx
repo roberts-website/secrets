@@ -26,9 +26,10 @@ import {
 import SecretPlainTextDetails from './SecretPlainTextDetails'
 import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
 
-import IconButton from '@/components/IconButton'
-import Modal      from '@/components/Modal'
-import SecretIcon from '@/components/SecretIcon'
+import IconButton   from '@/components/IconButton'
+import Modal        from '@/components/Modal'
+import SecretIcon   from '@/components/SecretIcon'
+import WrappedField from '@/components/WrappedField'
 
 /// component.
 
@@ -36,29 +37,23 @@ export default function SecretModal({
   secret,
 
   onClose,
-  onSave,
+  onUpdate,
 }: {
   secret?: Secret | undefined
 
-  onClose: () => void
-  onSave:  (secret: Secret) => void
+  onClose:  () => void
+  onUpdate: (secret: Secret) => void
 }) {
-  if (!secret) {
-    secret = newSecret('plain-text')
-  }
-
   const [valid,          setValid         ] = useState(false)
   const [internalSecret, setInternalSecret] = useState<Secret>(secret ?? newSecret('plain-text'))
+  const [isNew,          _                ] = useState(!secret)
 
   return <Modal
-    title  ='new secret.'
+    title  ={isNew ? 'new secret.' : 'edit secret.'}
     onClose={onClose}
   >
     <div className='flex flex-col gap-4 w-96'>
-      <div className='flex flex-col gap-1'>
-        <label>
-          type.
-        </label>
+      <WrappedField label='type.'>
         <div className='flex flex-row gap-1 items-center'>
           <SecretIcon secretType={internalSecret.type} />
           <select
@@ -77,12 +72,9 @@ export default function SecretModal({
             ))}
           </select>
         </div>
-      </div>
+      </WrappedField>
 
-      <div className='flex flex-col gap-1'>
-        <label>
-          name.
-        </label>
+      <WrappedField label='name.'>
         <input
           type ='text'
           value={internalSecret.name}
@@ -92,7 +84,7 @@ export default function SecretModal({
             name: e.target.value,
           })}
         />
-      </div>
+      </WrappedField>
 
       {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
         secret   ={internalSecret as SecretPlainText}
@@ -110,9 +102,9 @@ export default function SecretModal({
         icon    ={faFloppyDisk}
         disabled={!internalSecret.name || !valid}
 
-        onClick={() => onSave(internalSecret)}
+        onClick={() => onUpdate(internalSecret)}
       >
-        save.
+        {isNew ? 'create.' : 'update.'}
       </IconButton>
     </div>
   </Modal>

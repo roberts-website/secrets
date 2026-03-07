@@ -45,7 +45,7 @@ export default function Secrets({
     {showingNewModal && <SecretModal
       onClose={() => setShowingNewModal(false)}
 
-      onSave={secret => {
+      onUpdate={secret => {
         setCollection({
           ...collection,
           secrets: [...collection.secrets, secret],
