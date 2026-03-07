@@ -10,7 +10,7 @@ import type { SecretSSHKey } from '@/types/Collection'
 
 /// components.
 
-import WrappedField from '@/components/WrappedField'
+import TextArea from '@/components/Form/TextArea'
 
 /// component.
 
@@ -28,23 +28,18 @@ export default function Existing({
   useEffect(() => setValid(secret.public.length > 0 && secret.private.length > 0))
 
   return <>
-    <WrappedField label='public key.'>
-      <textarea
-        className='font-mono'
-        
-        value={secret.public}
-        
-        onChange={event => setSecret({ ...secret, public: event.target.value })}
-      />
-    </WrappedField>
+    <TextArea
+      className='font-mono'
+      label    ='public key.'
+      value    ={secret.public}
+      onChange ={value => setSecret({ ...secret, public: value })}
+    />
 
-    <WrappedField label='private key.'>
-      <textarea
-        className='font-mono'
-        value={secret.private}
-        
-        onChange={event => setSecret({ ...secret, private: event.target.value })}
-      />
-    </WrappedField>
+    <TextArea
+      className='font-mono'
+      label    ='private key.'
+      value    ={secret.private}
+      onChange ={value => setSecret({ ...secret, private: value })}
+    />
   </>
 }

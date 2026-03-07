@@ -1,8 +1,11 @@
-/// internal dependencies.
+/// external dependencies.
 
-import type {
-  SSHKeyPairAlgorithm,
-} from '@/types/SSHKeyPair'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+
+import {
+  faAlignLeft,
+  faKey,
+} from '@fortawesome/free-solid-svg-icons'
 
 /// types.
 
@@ -11,6 +14,11 @@ export type SecretType = 'plain-text' | 'ssh-key'
 export const SecretTypeNames: Record<SecretType, string> = {
   'plain-text': 'plain text.',
   'ssh-key':    'ssh key.',
+}
+
+export const SecretTypeIcons: Record<SecretType, IconDefinition> = {
+  'plain-text': faAlignLeft,
+  'ssh-key':    faKey,
 }
 
 export type Secret = {

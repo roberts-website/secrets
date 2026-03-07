@@ -10,7 +10,7 @@ import {
 
 /// internal dependencies.
 
-import IconButton from '@/components/IconButton'
+import Button from '@/components/Form/Button'
 
 /// component.
 
@@ -29,13 +29,13 @@ export default function SecretValue({
         {label}
       </div>
       <div className='flex flex-row gap-1'>
-        <IconButton
+        <Button
           className='mini'
           icon     ={visible ? faEyeSlash : faEye}
           onClick  ={() => setVisible(!visible)}
         />
 
-        <IconButton
+        <Button
           className='mini'
           icon     ={faCopy}
           onClick  ={() => navigator.clipboard.writeText(value)}

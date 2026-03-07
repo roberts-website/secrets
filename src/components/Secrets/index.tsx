@@ -14,7 +14,7 @@ import type { Collection } from '@/types/Collection'
 import SecretModal from '../SecretModal'
 import SecretsList    from './SecretsList'
 
-import IconButton from '@/components/IconButton'
+import Button from '@/components/Form/Button'
 
 /// component.
 
@@ -28,14 +28,14 @@ export default function Secrets({
   const [showingNewModal, setShowingNewModal] = useState(false)
 
   return <div className='flex-1 flex flex-col gap-4'>
-    <IconButton
+    <Button
       className='w-fit'
 
       icon   ={faPlus}
       onClick={() => setShowingNewModal(true)}
     >
       new secret.
-    </IconButton>
+    </Button>
 
     <SecretsList
       collection   ={collection}

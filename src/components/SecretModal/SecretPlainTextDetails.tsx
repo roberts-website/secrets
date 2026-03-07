@@ -10,7 +10,7 @@ import type { SecretPlainText } from '@/types/Collection'
 
 // components.
 
-import WrappedField from '@/components/WrappedField'
+import TextArea from '@/components/Form/TextArea'
 
 /// component.
 
@@ -28,11 +28,11 @@ export default function SecretPlainTextDetails({
     [secret.value]
   )
 
-  return <WrappedField label='value.'>
-    <textarea
-      className='font-mono'
-      value    ={secret.value}
-      onChange ={event => setSecret({ ...secret, value: event.target.value })}
-    />
-  </WrappedField>
+  return <TextArea
+    className='font-mono'
+    label    ='value.'
+    value    ={secret.value}
+
+    onChange={value => setSecret({ ...secret, value })}
+  />
 }

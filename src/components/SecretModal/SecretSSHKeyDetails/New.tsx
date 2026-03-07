@@ -29,8 +29,9 @@ import {
 
 // components.
 
-import Waiting      from '@/components/Waiting'
-import WrappedField from '@/components/WrappedField'
+import Select from '@/components/Form/Select'
+
+import Waiting from '@/components/Waiting'
 
 /// component.
 
@@ -102,56 +103,29 @@ export default function New({
   return <>
     {generating && <Waiting zIndex={2} />}
 
-    <WrappedField label='algorithm.'>
-      <select
-        value   ={algorithm}
-        onChange={event => setAlgorithm(event.target.value as SSHKeyPairAlgorithm)}
-      >
-        {Object.entries(SSHKeyPairAlgorithmNames).map(([algorithm, name]) => (
-          <option
-            key  ={algorithm}
-            value={algorithm}
-          >
-            {name}
-          </option>
-        ))}
-      </select>
-    </WrappedField>
+    <Select
+      label   ='algorithm.'
+      value   ={algorithm}
+      options ={Object.entries(SSHKeyPairAlgorithmNames).map(([algorithm, name]) => ({ label: name, value: algorithm }))}
+      onChange={(value: string) => setAlgorithm(value as SSHKeyPairAlgorithm)}
+    />
 
     {algorithm === 'rsa' && <>
-      <WrappedField label='key size.'>
-        <select
-          value   ={keySize}
-          onChange={event => setKeySize(parseInt(event.target.value) as SSHKeyPairRSAKeySize)}
-        >
-          {Object.entries(SSHKeyPairRSAKeySizeNames).map(([keySize, name]) => (
-            <option
-              key  ={keySize}
-              value={keySize}
-            >
-              {name}
-            </option>
-          ))}
-        </select>
-      </WrappedField>
+      <Select
+        label   ='key size.'
+        value   ={keySize.toString()}
+        options ={Object.entries(SSHKeyPairRSAKeySizeNames).map(([keySize, name]) => ({ label: name, value: keySize }))}
+        onChange={(value: string) => setKeySize(parseInt(value) as SSHKeyPairRSAKeySize)}
+      />
     </>}
 
     {algorithm === 'ecdsa' && <>
-      <WrappedField label='curve.'>
-        <select
-          value   ={curve}
-          onChange={event => setCurve(parseInt(event.target.value) as SSHKeyPairECDSACurve)}
-        >
-          {Object.entries(SSHKeyPairECDSACurveNames).map(([curve, name]) => (
-            <option
-              key  ={curve}
-              value={curve}
-            >
-              {name}
-            </option>
-          ))}
-        </select>
-      </WrappedField>
+      <Select
+        label   ='curve.'
+        value   ={curve.toString()}
+        options ={Object.entries(SSHKeyPairECDSACurveNames).map(([curve, name]) => ({ label: name, value: curve }))}
+        onChange={(value: string) => setCurve(parseInt(value) as SSHKeyPairECDSACurve)}
+      />
     </>}
   </>
 }

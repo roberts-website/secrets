@@ -17,6 +17,7 @@ import type {
 } from '@/types/Collection'
 
 import {
+  SecretTypeIcons,
   SecretTypeNames,
   newSecret,
 } from '@/types/Collection'
@@ -26,10 +27,11 @@ import {
 import SecretPlainTextDetails from './SecretPlainTextDetails'
 import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
 
-import IconButton   from '@/components/IconButton'
-import Modal        from '@/components/Modal'
-import SecretIcon   from '@/components/SecretIcon'
-import WrappedField from '@/components/WrappedField'
+import Button from '@/components/Form/Button'
+import Select     from '@/components/Form/Select'
+import TextInput  from '@/components/Form/TextInput'
+
+import Modal from '@/components/Modal'
 
 /// component.
 
@@ -44,47 +46,29 @@ export default function SecretModal({
   onClose:  () => void
   onUpdate: (secret: Secret) => void
 }) {
-  const [valid,          setValid         ] = useState(false)
   const [internalSecret, setInternalSecret] = useState<Secret>(secret ?? newSecret('plain-text'))
   const [isNew,          _                ] = useState(!secret)
+  const [valid,          setValid         ] = useState(false)
 
   return <Modal
     title  ={isNew ? 'new secret.' : 'edit secret.'}
     onClose={onClose}
   >
     <div className='flex flex-col gap-4 w-96'>
-      <WrappedField label='type.'>
-        <div className='flex flex-row gap-1 items-center'>
-          <SecretIcon secretType={internalSecret.type} />
-          <select
-            className='flex-1'
-            value    ={internalSecret.type}
+      <Select
+        label   ='type.'
+        value   ={internalSecret.type}
+        icon    ={SecretTypeIcons[internalSecret.type]}
+        options ={Object.entries(SecretTypeNames).map(([type, name]) => ({ label: name, value: type }))}
+        onChange={value => setInternalSecret(newSecret(value as SecretType))}
+      />
 
-            onChange={e => setInternalSecret(newSecret(e.target.value as SecretType))}
-          >
-            {Object.entries(SecretTypeNames).map(([type, name]) => (
-              <option
-                key  ={type}
-                value={type}
-              >
-                {name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </WrappedField>
-
-      <WrappedField label='name.'>
-        <input
-          type ='text'
-          value={internalSecret.name}
-
-          onChange={e => setInternalSecret({
-            ...internalSecret,
-            name: e.target.value,
-          })}
-        />
-      </WrappedField>
+      <TextInput
+        label='name.'
+        value={internalSecret.name}
+        
+        onChange={value => setInternalSecret({ ...internalSecret, name: value })}
+      />
 
       {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
         secret   ={internalSecret as SecretPlainText}
@@ -98,14 +82,14 @@ export default function SecretModal({
         setValid ={setValid}
       />}
     
-      <IconButton
+      <Button
         icon    ={faFloppyDisk}
         disabled={!internalSecret.name || !valid}
 
         onClick={() => onUpdate(internalSecret)}
       >
         {isNew ? 'create.' : 'update.'}
-      </IconButton>
+      </Button>
     </div>
   </Modal>
 }
