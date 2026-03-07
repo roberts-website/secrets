@@ -56,10 +56,12 @@ export default function SecretModal({
   >
     <div className='flex flex-col gap-4 w-96'>
       <Select
-        label   ='type.'
-        value   ={internalSecret.type}
+        disabled={!isNew}
         icon    ={SecretTypeIcons[internalSecret.type]}
+        label   ='type.'
         options ={Object.entries(SecretTypeNames).map(([type, name]) => ({ label: name, value: type }))}
+        value   ={internalSecret.type}
+
         onChange={value => setInternalSecret({
           ...newSecret(value as SecretType),
           name: internalSecret.name,

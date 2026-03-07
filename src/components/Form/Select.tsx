@@ -17,7 +17,8 @@ export default function Select({
   value,
   options,
 
-  icon = undefined,
+  disabled = false,
+  icon     = undefined,
 
   onChange,
 }: {
@@ -25,7 +26,8 @@ export default function Select({
   value:   string
   options: { label: string; value: string }[]
 
-  icon?: IconDefinition | undefined
+  disabled?: boolean
+  icon?:     IconDefinition | undefined
 
   onChange: (value: string) => void
 }) {
@@ -35,8 +37,9 @@ export default function Select({
 
       <select
         className='flex-1'
-        value    ={value}
+        disabled ={disabled}
         onChange ={event => onChange(event.target.value)}
+        value    ={value}
       >
         {options.map(option => (
           <option key={option.value} value={option.value}>{option.label}</option>
