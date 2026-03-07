@@ -60,7 +60,10 @@ export default function SecretModal({
         value   ={internalSecret.type}
         icon    ={SecretTypeIcons[internalSecret.type]}
         options ={Object.entries(SecretTypeNames).map(([type, name]) => ({ label: name, value: type }))}
-        onChange={value => setInternalSecret(newSecret(value as SecretType))}
+        onChange={value => setInternalSecret({
+          ...newSecret(value as SecretType),
+          name: internalSecret.name,
+        })}
       />
 
       <TextInput

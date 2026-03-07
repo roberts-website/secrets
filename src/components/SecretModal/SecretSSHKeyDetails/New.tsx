@@ -36,9 +36,13 @@ import Waiting from '@/components/Waiting'
 /// component.
 
 export default function New({
+  secret,
+
   setSecret,
   setValid,
 }: {
+  secret: SecretSSHKey
+
   setSecret: (secret: SecretSSHKey) => void
   setValid:  (valid: boolean) => void
 }) {
@@ -59,7 +63,7 @@ export default function New({
             setSecret({
               type:    'ssh-key',
               id:      crypto.randomUUID(),
-              name:    '',
+              name:    secret.name,
               public:  keyPair.public,
               private: keyPair.private,
             })
@@ -73,7 +77,7 @@ export default function New({
             setSecret({
               type:    'ssh-key',
               id:      crypto.randomUUID(),
-              name:    '',
+              name:    secret.name,
               public:  keyPair.public,
               private: keyPair.private,
             })
@@ -86,7 +90,7 @@ export default function New({
             setSecret({
               type:    'ssh-key',
               id:      crypto.randomUUID(),
-              name:    '',
+              name:    secret.name,
               public:  keyPair.public,
               private: keyPair.private,
             })

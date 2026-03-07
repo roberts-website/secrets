@@ -44,6 +44,7 @@ export default function SecretSSHKeyDetails({
     </div>
 
     {source === 'new' && <New
+      secret   ={secret}
       setSecret={setSecret}
       setValid ={setValid}
     />}
