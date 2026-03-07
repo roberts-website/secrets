@@ -16,16 +16,21 @@ import TextArea from '@/components/Form/TextArea'
 
 export default function SecretPlainTextDetails({
   secret,
+
   setSecret,
   setValid,
 }: {
   secret:    SecretPlainText
+
   setSecret: (secret: SecretPlainText) => void
   setValid:  (valid: boolean) => void
 }) {
   useEffect(
     () => setValid(secret.value.length > 0),
-    [secret.value]
+    [
+      secret.value,
+      setValid,
+    ]
   )
 
   return <TextArea

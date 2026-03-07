@@ -101,7 +101,13 @@ export default function New({
         default:
           throw new Error(`unknown algorithm. \`${algorithm}\``)
       }
-    }, [algorithm, keySize, curve],
+    }, [
+      algorithm,
+      curve,
+      keySize,
+      secret.name,
+      setSecret,
+    ],
   )
 
   return <>
