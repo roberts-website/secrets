@@ -33,9 +33,9 @@ export type SecretPlainText = Secret & {
 }
 
 export type SecretSSHKey = Secret & {
-  type:      'ssh-key'
-  public:    string
-  private:   string
+  type:    'ssh-key'
+  public:  string
+  private: string
 }
 
 export type Collection = {
