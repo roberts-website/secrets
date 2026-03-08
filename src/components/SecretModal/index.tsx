@@ -47,8 +47,9 @@ export default function SecretModal({
   onUpdate: (secret: Secret) => void
 }) {
   const [internalSecret, setInternalSecret] = useState<Secret>(secret ?? newSecret('plain-text'))
-  const [isNew,          _                ] = useState(!secret)
   const [valid,          setValid         ] = useState(false)
+
+  const [isNew] = useState<boolean>(() => !secret)
 
   return <Modal
     title  ={isNew ? 'new secret.' : 'edit secret.'}

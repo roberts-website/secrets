@@ -1,7 +1,3 @@
-/// external dependencies.
-
-import { useEffect } from 'react'
-
 /// internal dependencies.
 
 // types.
@@ -18,15 +14,11 @@ export default function Existing({
   secret,
 
   setSecret,
-  setValid,
 }: {
   secret: SecretSSHKey
 
   setSecret: (secret: SecretSSHKey) => void
-  setValid:  (valid: boolean) => void
 }) {
-  useEffect(() => setValid(secret.public.length > 0 && secret.private.length > 0))
-
   return <>
     <TextArea
       className='font-mono'

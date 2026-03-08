@@ -1,6 +1,9 @@
 /// external dependencies.
 
-import { useState } from 'react'
+import { 
+  useEffect,
+  useState,
+} from 'react'
 
 /// internal dependencies.
 
@@ -28,6 +31,19 @@ export default function SecretSSHKeyDetails({
 }) {
   const [source, setSource] = useState<'new' | 'existing'>(secret.public.length > 0 && secret.private.length > 0 ? 'existing' : 'new')
 
+  useEffect(() => {
+    if (source === 'new') {
+      setValid(true)
+    } else {
+      setValid(secret.public.length > 0 && secret.private.length > 0)
+    }
+  }, [
+    source,
+    secret.public,
+    secret.private,
+    setValid,
+  ])
+
   return <>
     <div className='flex flex-row'>
       <div
@@ -38,7 +54,8 @@ export default function SecretSSHKeyDetails({
       </div>
       <div
         className={`flex-1 border-1 p-2 text-center font-bold cursor-pointer border-[var(--foreground-color)] ${source === 'existing' ? 'bg-[var(--foreground-color)] text-[var(--background-color)]' : ''}`}
-        onClick  ={() => setSource('existing')}>
+        onClick  ={() => setSource('existing')}
+      >
         existing.
       </div>
     </div>
@@ -46,13 +63,11 @@ export default function SecretSSHKeyDetails({
     {source === 'new' && <New
       secret   ={secret}
       setSecret={setSecret}
-      setValid ={setValid}
     />}
 
     {source === 'existing' && <Existing
       secret   ={secret}
       setSecret={setSecret}
-      setValid ={setValid}
     />}
   </>
 }

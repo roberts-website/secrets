@@ -39,81 +39,80 @@ export default function New({
   secret,
 
   setSecret,
-  setValid,
 }: {
   secret: SecretSSHKey
 
   setSecret: (secret: SecretSSHKey) => void
-  setValid:  (valid: boolean) => void
 }) {
+  const [id] = useState<string>(() => secret.id ?? crypto.randomUUID())
+
   const [algorithm,  setAlgorithm ] = useState<SSHKeyPairAlgorithm >('ed25519')
   const [curve,      setCurve     ] = useState<SSHKeyPairECDSACurve>(521)
   const [generating, setGenerating] = useState<boolean             >(false)
   const [keySize,    setKeySize   ] = useState<SSHKeyPairRSAKeySize>(4096)
 
-  useEffect(() => setValid(true))
+  useEffect(() => {
+    let cancelled = false
 
-  useEffect(
-    () => {
+    async function generate() {
       setGenerating(true)
 
-      switch (algorithm) {
-        case 'rsa':
-          generateRSAKeyPair(keySize).then(keyPair => {
-            setSecret({
-              type:    'ssh-key',
-              id:      crypto.randomUUID(),
-              name:    secret.name,
-              public:  keyPair.public,
-              private: keyPair.private,
-            })
+      try {
+        let keyPair
 
-            setGenerating(false)
-          })
-          
-          break
-        case 'ecdsa':
-          generateECDSAKeyPair(curve).then(keyPair => {
-            setSecret({
-              type:    'ssh-key',
-              id:      crypto.randomUUID(),
-              name:    secret.name,
-              public:  keyPair.public,
-              private: keyPair.private,
-            })
+        switch (algorithm) {
+          case 'rsa':
+            keyPair = await generateRSAKeyPair(keySize)
+            break
 
-            setGenerating(false)
-          })
-          break
-        case 'ed25519':
-          generateEd25519KeyPair().then(keyPair => {
-            setSecret({
-              type:    'ssh-key',
-              id:      crypto.randomUUID(),
-              name:    secret.name,
-              public:  keyPair.public,
-              private: keyPair.private,
-            })
+          case 'ecdsa':
+            keyPair = await generateECDSAKeyPair(curve)
+            break
 
-            setGenerating(false)
-          })
-          break
-        default:
-          throw new Error(`unknown algorithm. \`${algorithm}\``)
+          case 'ed25519':
+            keyPair = await generateEd25519KeyPair()
+            break
+
+          default:
+            throw new Error(`unknown algorithm. \`${algorithm}\``)
+        }
+
+        if (cancelled) return
+
+        setSecret({
+          type:    'ssh-key',
+          name:    secret.name,
+          public:  keyPair.public,
+          private: keyPair.private,
+
+          id,
+        })
+      } finally {
+        if (!cancelled) {
+          setGenerating(false)
+        }
       }
-    }, [
-      algorithm,
-      curve,
-      keySize,
-      secret.name,
-      setSecret,
-    ],
-  )
+    }
+
+    generate()
+
+    return () => {
+      cancelled = true
+    }
+  }, [
+    algorithm,
+    curve,
+    id,
+    keySize,
+    secret.name,
+    setSecret,
+  ])
 
   return <>
     {generating && <Waiting zIndex={2} />}
 
     <Select
+      disabled={generating}
       label   ='algorithm.'
       value   ={algorithm}
       options ={Object.entries(SSHKeyPairAlgorithmNames).map(([algorithm, name]) => ({ label: name, value: algorithm }))}
@@ -122,6 +121,7 @@ export default function New({
 
     {algorithm === 'rsa' && <>
       <Select
+        disabled={generating}
         label   ='key size.'
         value   ={keySize.toString()}
         options ={Object.entries(SSHKeyPairRSAKeySizeNames).map(([keySize, name]) => ({ label: name, value: keySize }))}
@@ -131,6 +131,7 @@ export default function New({
 
     {algorithm === 'ecdsa' && <>
       <Select
+        disabled={generating}
         label   ='curve.'
         value   ={curve.toString()}
         options ={Object.entries(SSHKeyPairECDSACurveNames).map(([curve, name]) => ({ label: name, value: curve }))}
