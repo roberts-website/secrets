@@ -16,7 +16,11 @@ import type { SecretSSHKey } from '@/types/Collection'
 import Existing from './Existing'
 import New      from './New'
 
+import RadioGroup from '@/components/Form/RadioGroup'
+
 /// component.
+
+type Source = 'new' | 'existing'
 
 export default function SecretSSHKeyDetails({
   secret,
@@ -29,7 +33,7 @@ export default function SecretSSHKeyDetails({
   setSecret: (secret: SecretSSHKey) => void
   setValid:  (valid: boolean) => void
 }) {
-  const [source, setSource] = useState<'new' | 'existing'>(secret.public.length > 0 && secret.private.length > 0 ? 'existing' : 'new')
+  const [source, setSource] = useState<Source>(secret.public.length > 0 && secret.private.length > 0 ? 'existing' : 'new')
 
   useEffect(() => {
     if (source === 'new') {
@@ -45,20 +49,17 @@ export default function SecretSSHKeyDetails({
   ])
 
   return <>
-    <div className='flex flex-row'>
-      <div
-        className={`flex-1 border-1 p-2 text-center font-bold cursor-pointer border-[var(--foreground-color)] ${source === 'new' ? 'bg-[var(--foreground-color)] text-[var(--background-color)]' : ''}`}
-        onClick  ={() => setSource('new')}
-      >
-        new.
-      </div>
-      <div
-        className={`flex-1 border-1 p-2 text-center font-bold cursor-pointer border-[var(--foreground-color)] ${source === 'existing' ? 'bg-[var(--foreground-color)] text-[var(--background-color)]' : ''}`}
-        onClick  ={() => setSource('existing')}
-      >
-        existing.
-      </div>
-    </div>
+    <RadioGroup
+      label='source.'
+      value={source}
+      
+      options={[
+        { label: 'new.',      value: 'new'      },
+        { label: 'existing.', value: 'existing' },
+      ]}
+
+      onChange={value => setSource(value as Source)}
+    />
 
     {source === 'new' && <New
       secret   ={secret}
