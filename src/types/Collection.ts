@@ -21,22 +21,24 @@ export const SecretTypeIcons: Record<SecretType, IconDefinition> = {
   'ssh-key':    faKey,
 }
 
-export type Secret = {
-  type:  SecretType
-  id:    string
-  name:  string
+export type SecretBase = {
+  id:   string
+  name: string
+  tags: readonly string[]
 }
 
-export type SecretPlainText = Secret & {
+export type SecretPlainText = SecretBase & {
   type:  'plain-text'
   value: string
 }
 
-export type SecretSSHKey = Secret & {
+export type SecretSSHKey = SecretBase & {
   type:    'ssh-key'
   public:  string
   private: string
 }
+
+export type Secret = SecretPlainText | SecretSSHKey
 
 export type Collection = {
   version: 1
@@ -51,16 +53,18 @@ export function newSecret(type: SecretType): Secret {
         id:    crypto.randomUUID(),
         type:  'plain-text',
         name:  '',
+        tags:  [],
         value: '',
-      } as SecretPlainText
+      }
     case 'ssh-key':
       return {
         id:      crypto.randomUUID(),
         type:    'ssh-key',
         name:    '',
+        tags:    [],
         public:  '',
         private: '',
-      } as SecretSSHKey
+      }
     default:
       throw new Error(`unknown secret type. \`${type}\``)
   }

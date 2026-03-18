@@ -6,11 +6,7 @@ import { useState } from 'react'
 
 // types.
 
-import type {
-  Secret,
-  SecretPlainText,
-  SecretSSHKey,
-} from '@/types/Collection'
+import type { Secret } from '@/types/Collection'
 
 // components.
 
@@ -49,7 +45,7 @@ export default function SecretsListItem({
       setIsExpanded={setIsExpanded}
     />
 
-    {isExpanded && secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret as SecretPlainText} />}
-    {isExpanded && secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret as SecretSSHKey   } />}
+    {isExpanded && secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret} />}
+    {isExpanded && secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret} />}
   </div>
 }

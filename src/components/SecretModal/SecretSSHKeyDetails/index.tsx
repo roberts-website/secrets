@@ -34,7 +34,7 @@ export default function SecretSSHKeyDetails({
   setValid:  (valid: boolean) => void
 }) {
   const [source,         setSource        ] = useState<Source      >(secret.public.length > 0 && secret.private.length > 0 ? 'existing' : 'new')
-  const [newSecret,      setNewSecret     ] = useState<SecretSSHKey>({ id: secret.id, type: 'ssh-key', name: secret.name, public: '', private: '' })
+  const [newSecret,      setNewSecret     ] = useState<SecretSSHKey>({ id: secret.id, type: 'ssh-key', name: secret.name, tags: secret.tags ?? [], public: '', private: '' })
   const [modifiedSecret, setModifiedSecret] = useState<SecretSSHKey>({ ...secret })
 
   useEffect(() => {

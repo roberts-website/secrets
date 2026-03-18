@@ -7,14 +7,7 @@ import { useState     } from 'react'
 
 // types.
 
-import type {
-  SecretType,
-
-  Secret,
-
-  SecretPlainText,
-  SecretSSHKey,
-} from '@/types/Collection'
+import type { SecretType, Secret } from '@/types/Collection'
 
 import {
   SecretTypeIcons,
@@ -66,6 +59,7 @@ export default function SecretModal({
         onChange={value => setInternalSecret({
           ...newSecret(value as SecretType),
           name: internalSecret.name,
+          tags: internalSecret.tags,
         })}
       />
 
@@ -77,13 +71,13 @@ export default function SecretModal({
       />
 
       {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
-        secret   ={internalSecret as SecretPlainText}
+        secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
       />}
 
       {internalSecret.type === 'ssh-key' && <SecretSSHKeyDetails
-        secret   ={internalSecret as SecretSSHKey}
+        secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
       />}

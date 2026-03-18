@@ -82,6 +82,7 @@ export default function New({
         setSecret({
           type:    'ssh-key',
           name:    secret.name,
+          tags:    secret.tags ?? [],
           public:  keyPair.public,
           private: keyPair.private,
 
@@ -105,6 +106,7 @@ export default function New({
     id,
     keySize,
     secret.name,
+    secret.tags,
     setSecret,
   ])
 

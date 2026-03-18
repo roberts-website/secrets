@@ -31,23 +31,21 @@ function isCollection(value: unknown): value is Collection {
   if (o.version !== 1 || typeof o.title !== 'string' || !Array.isArray(o.secrets))
     return false
 
-  return o.secrets.every(s => 
-    s
-    && typeof s === 'object'
-    && typeof (s as Record<string, unknown>).type === 'string'
-    && typeof (s as Record<string, unknown>).id   === 'string'
-    && typeof (s as Record<string, unknown>).name === 'string'
-  )
+  return o.secrets.every(s => {
+    const sec = s as Record<string, unknown>
+    if (!sec || typeof sec !== 'object') return false
+    if (typeof sec.id !== 'string' || typeof sec.name !== 'string' || !Array.isArray(sec.tags)) return false
+    if (sec.type === 'plain-text') return typeof sec.value === 'string'
+    if (sec.type === 'ssh-key') return typeof sec.public === 'string' && typeof sec.private === 'string'
+    return false
+  })
 }
 
 async function loadFromFile(file: File): Promise<Collection> {
   const text = await file.text()
-
   const data = JSON.parse(text) as unknown
-
   if (!isCollection(data))
     throw new Error('Invalid file format')
-
   return data
 }
 
