@@ -42,38 +42,48 @@ export default function Header({
   onDelete:      () => void
   setIsExpanded: (isExpanded: boolean) => void
 }) {
-  return <div className='flex flex-row gap-2'>
-    <div
-      className='flex flex-row gap-2 flex-1 text-xl font-bold cursor-pointer items-center'
-      onClick  ={() => setIsExpanded(!isExpanded)}
-    >
-      <FontAwesomeIcon icon={isExpanded ? faAngleUp : faAngleDown} />
-      <FontAwesomeIcon icon={SecretTypeIcons[secret.type]} />        
-      <div className='flex-1'>
-        {secret.name}
+  return <div className='flex flex-col gap-2'>
+    <div className='flex flex-row gap-2'>
+      <div
+        className='flex flex-row gap-2 flex-1 text-xl font-bold cursor-pointer items-center'
+        onClick  ={() => setIsExpanded(!isExpanded)}
+      >
+        <FontAwesomeIcon icon={isExpanded ? faAngleUp : faAngleDown} />
+        <FontAwesomeIcon icon={SecretTypeIcons[secret.type]} />        
+        <div className='flex-1'>
+          {secret.name}
+        </div>
+      </div>
+      <div className='flex flex-row gap-1 items-center'>
+        <Button
+          className='mini'
+          icon     ={faAngleUp}
+          onClick  ={onMoveUp}
+        />
+        <Button
+          className='mini'
+          icon     ={faAngleDown}
+          onClick  ={onMoveDown}
+        />
+        <Button
+          className='mini'
+          icon     ={faPencil}
+          onClick  ={onEdit}
+        />
+        <Button
+          className='mini'
+          icon     ={faTrash}
+          onClick  ={onDelete}
+        />
       </div>
     </div>
-    <div className='flex flex-row gap-1 items-center'>
-      <Button
-        className='mini'
-        icon     ={faAngleUp}
-        onClick  ={onMoveUp}
-      />
-      <Button
-        className='mini'
-        icon     ={faAngleDown}
-        onClick  ={onMoveDown}
-      />
-      <Button
-        className='mini'
-        icon     ={faPencil}
-        onClick  ={onEdit}
-      />
-      <Button
-        className='mini'
-        icon     ={faTrash}
-        onClick  ={onDelete}
-      />
-    </div>
+
+    {secret.tags.length > 0 && <div className='flex flex-row gap-1'>
+      {secret.tags.map(tag => (
+        <span key={tag} className='text-sm text-foreground-color-2'>
+          #{tag}
+        </span>
+      ))}
+    </div>}
   </div>
 }
