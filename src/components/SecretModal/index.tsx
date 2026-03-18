@@ -19,11 +19,11 @@ import {
 
 import SecretPlainTextDetails from './SecretPlainTextDetails'
 import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
+import Tags                   from './Tags'
 
-import Button       from '@/components/Form/Button'
-import Select       from '@/components/Form/Select'
-import TextInput    from '@/components/Form/TextInput'
-import WrappedField from '@/components/Form/WrappedField'
+import Button    from '@/components/Form/Button'
+import Select    from '@/components/Form/Select'
+import TextInput from '@/components/Form/TextInput'
 
 import Modal from '@/components/Modal'
 
@@ -41,7 +41,6 @@ export default function SecretModal({
   onUpdate: (secret: Secret) => void
 }) {
   const [internalSecret, setInternalSecret] = useState<Secret>(secret ?? newSecret('plain-text'))
-  const [newTag,         setNewTag        ] = useState('')
   const [valid,          setValid         ] = useState(false)
 
   const [isNew] = useState<boolean>(() => !secret)
@@ -72,6 +71,11 @@ export default function SecretModal({
         onChange={value => setInternalSecret({ ...internalSecret, name: value })}
       />
 
+      <Tags
+        secret   ={internalSecret}
+        setSecret={setInternalSecret}
+      />
+
       {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
         secret   ={internalSecret}
         setSecret={setInternalSecret}
@@ -83,33 +87,6 @@ export default function SecretModal({
         setSecret={setInternalSecret}
         setValid ={setValid}
       />}
-
-      <WrappedField
-        label='tags.'
-      >
-        <div className='flex flex-row gap-2'>
-          {internalSecret.tags.map(tag => {
-            return <span
-              key={tag}
-              className='text-sm text-[var(--background-color-2)] bg-[var(--foreground-color)] rounded-md px-2 py-1'
-            >
-              #{tag}
-            </span>
-          })}
-        </div>
-        <TextInput
-          value={newTag}
-
-          onChange={value => setNewTag(value)}
-
-          onKeyDown={key => {
-            if (key === 'Enter') {
-              setInternalSecret({ ...internalSecret, tags: [...internalSecret.tags, newTag] })
-              setNewTag('')
-            }
-          }}
-        />
-      </WrappedField>
     
       <Button
         icon    ={faFloppyDisk}
