@@ -45,15 +45,17 @@ export default function SecretsListItem({
       setIsExpanded={setIsExpanded}
     />
 
-    {isExpanded && secret.tags.length > 0 && <div className='flex flex-row gap-1 flex-wrap'>
-      {secret.tags.map(tag => (
-        <span key={tag} className='text-xs border-1 border-[#808080] rounded-md px-2 py-1'>
-          {tag}
-        </span>
-      ))}
-    </div>}
+    {isExpanded && <div className='border-1 border-[var(--foreground-color-2)] rounded-md p-3 my-1'>
+      {secret.tags.length > 0 && <div className='flex flex-row gap-1 flex-wrap'>
+        {secret.tags.map(tag => (
+          <span key={tag} className='text-xs border-1 border-[#808080] rounded-md px-2 py-1'>
+            {tag}
+          </span>
+        ))}
+      </div>}
 
-    {isExpanded && secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret} />}
-    {isExpanded && secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret} />}
+      {secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret} />}
+      {secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret} />}
+    </div>}
   </div>
 }
