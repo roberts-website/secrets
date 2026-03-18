@@ -77,13 +77,5 @@ export default function Header({
         />
       </div>
     </div>
-
-    {secret.tags.length > 0 && <div className='flex flex-row gap-1'>
-      {secret.tags.map(tag => (
-        <span key={tag} className='text-sm text-foreground-color-2'>
-          #{tag}
-        </span>
-      ))}
-    </div>}
   </div>
 }
