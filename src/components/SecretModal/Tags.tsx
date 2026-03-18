@@ -1,6 +1,8 @@
 /// external dependencies.
 
-import { useState } from 'react'
+import { faCircleXmark   } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState        } from 'react'
 
 /// internal dependencies.
 
@@ -29,13 +31,23 @@ export default function Tags({
   return <WrappedField
     label='tags.'
   >
-    <div className='flex flex-row gap-2'>
+    <div className='flex flex-row flex-wrap gap-2'>
       {secret.tags.map(tag => {
         return <span
           key      ={tag}
-          className='text-sm text-[var(--background-color-2)] bg-[var(--foreground-color)] rounded-md px-2 py-1'
+          className='text-sm text-[var(--background-color-2)] bg-[var(--foreground-color)] rounded-md pl-1 pr-2 py-1 flex flex-row gap-1 items-center'
         >
-          #{tag}
+          <FontAwesomeIcon
+            className='cursor-pointer text-[var(--background-color-2)]'
+            icon     ={faCircleXmark}
+
+            onClick={() => setSecret({
+              ...secret,
+              tags: secret.tags.filter(t => t !== tag),
+            })}
+          />
+
+          {tag}
         </span>
       })}
     </div>
