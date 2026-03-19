@@ -2,7 +2,7 @@
 
 // types.
 
-import type { SecretSSHKey } from '@/types/Collection'
+import type { SecretSSHKeyV2 } from '@/types/Collection'
 
 /// components.
 
@@ -15,9 +15,9 @@ export default function Existing({
 
   setSecret,
 }: {
-  secret: SecretSSHKey
+  secret: SecretSSHKeyV2
 
-  setSecret: (secret: SecretSSHKey) => void
+  setSecret: (secret: SecretSSHKeyV2) => void
 }) {
   return <>
     <TextArea

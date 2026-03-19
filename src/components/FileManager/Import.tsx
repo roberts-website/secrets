@@ -12,41 +12,34 @@ import {
 
 // types.
 
-import type { Collection } from '@/types/Collection'
+import type {
+  Collection,
+  CollectionV2,
+} from '@/types/Collection'
+
+import {
+  isCollection,
+  migrateCollection,
+} from '@/types/Collection'
 
 // components.
 
-import ErrorModal from '@/components/ErrorModal'
 import Button from '@/components/Form/Button'
+
+import ErrorModal from '@/components/ErrorModal'
 import Waiting    from '@/components/Waiting'
 
 /// helpers.
 
-function isCollection(value: unknown): value is Collection {
-  if (!value || typeof value !== 'object')
-    return false
-
-  const o = value as Record<string, unknown>
-
-  if (o.version !== 1 || typeof o.title !== 'string' || !Array.isArray(o.secrets))
-    return false
-
-  return o.secrets.every(s => {
-    const sec = s as Record<string, unknown>
-    if (!sec || typeof sec !== 'object') return false
-    if (typeof sec.id !== 'string' || typeof sec.name !== 'string' || !Array.isArray(sec.tags)) return false
-    if (sec.type === 'plain-text') return typeof sec.value === 'string'
-    if (sec.type === 'ssh-key') return typeof sec.public === 'string' && typeof sec.private === 'string'
-    return false
-  })
-}
-
-async function loadFromFile(file: File): Promise<Collection> {
+async function loadFromFile(file: File): Promise<CollectionV2> {
   const text = await file.text()
-  const data = JSON.parse(text) as unknown
+
+  const data = JSON.parse(text) as Collection
+
   if (!isCollection(data))
     throw new Error('Invalid file format')
-  return data
+
+  return migrateCollection(data)
 }
 
 /// component.
@@ -55,7 +48,7 @@ export default function Import({
   setCollection,
   setFilename,
 }: {
-  setCollection: (collection: Collection) => void
+  setCollection: (collection: CollectionV2) => void
   setFilename:   (filename: string) => void
 }) {
   const [importing,       setImporting      ] = useState(false)

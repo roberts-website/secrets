@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 // types.
 
-import type { Collection } from '@/types/Collection'
+import type { CollectionV2 } from '@/types/Collection'
 
 // components.
 
@@ -19,8 +19,8 @@ export default function FileManager({
   collection,
   setCollection,
 }: {
-  collection:    Collection
-  setCollection: (collection: Collection) => void
+  collection:    CollectionV2
+  setCollection: (collection: CollectionV2) => void
 }) {
   const [filename, setFilename] = useState<string | null>(null)
 

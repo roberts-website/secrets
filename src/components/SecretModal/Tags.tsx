@@ -8,7 +8,7 @@ import { useState        } from 'react'
 
 // types.
 
-import type { Secret } from '@/types/Collection'
+import type { SecretV2 } from '@/types/Collection'
 
 // components.
 
@@ -22,9 +22,9 @@ export default function Tags({
 
   setSecret,
 }: {
-  secret: Secret
+  secret: SecretV2
 
-  setSecret: (secret: Secret) => void
+  setSecret: (secret: SecretV2) => void
 }) {
   const [newTag, setNewTag] = useState('')
 
@@ -32,7 +32,7 @@ export default function Tags({
     label='tags.'
   >
     <div className='flex flex-row flex-wrap gap-2'>
-      {secret.tags.map(tag => {
+      {secret.tags.map((tag: string) => {
         return <span
           key      ={tag}
           className='text-sm text-[var(--background-color-2)] bg-[var(--foreground-color)] rounded-md pl-1 pr-2 py-1 flex flex-row gap-1 items-center'

@@ -6,7 +6,7 @@ import { faFileExport } from '@fortawesome/free-solid-svg-icons'
 
 // types.
 
-import type { Collection } from '@/types/Collection'
+import type { CollectionV2 } from '@/types/Collection'
 
 // components.
 
@@ -14,7 +14,7 @@ import Button from '@/components/Form/Button'
 
 /// helpers.
 
-function generateFilename(collection: Collection, filename: string | null): string {
+function generateFilename(collection: CollectionV2, filename: string | null): string {
   if (filename && filename != 'untitled.secrets')
     return filename
 
@@ -24,7 +24,7 @@ function generateFilename(collection: Collection, filename: string | null): stri
   return 'untitled.secrets'
 }
 
-function saveAsFile(collection: Collection, filename: string | null): void {
+function saveAsFile(collection: CollectionV2, filename: string | null): void {
   const a    = document.createElement('a')
   const blob = new Blob([JSON.stringify(collection, null, 2)], { type: 'application/json' })
 
@@ -44,7 +44,7 @@ export default function Export({
   collection,
   filename,
 }: {
-  collection: Collection
+  collection: CollectionV2
   filename:   string | null
 }) {
   return <Button

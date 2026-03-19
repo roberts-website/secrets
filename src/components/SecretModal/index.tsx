@@ -7,7 +7,10 @@ import { useState     } from 'react'
 
 // types.
 
-import type { SecretType, Secret } from '@/types/Collection'
+import type {
+  SecretType,
+  SecretV2,
+} from '@/types/Collection'
 
 import {
   SecretTypeIcons,
@@ -35,13 +38,13 @@ export default function SecretModal({
   onClose,
   onUpdate,
 }: {
-  secret?: Secret | undefined
+  secret?: SecretV2 | undefined
 
   onClose:  () => void
-  onUpdate: (secret: Secret) => void
+  onUpdate: (secret: SecretV2) => void
 }) {
-  const [internalSecret, setInternalSecret] = useState<Secret>(secret ?? newSecret('plain-text'))
-  const [valid,          setValid         ] = useState(false)
+  const [internalSecret, setInternalSecret] = useState<SecretV2>(secret ?? newSecret('plain-text'))
+  const [valid,          setValid         ] = useState<boolean >(false                            )
 
   const [isNew] = useState<boolean>(() => !secret)
 

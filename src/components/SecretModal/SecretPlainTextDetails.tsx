@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 // types.
 
-import type { SecretPlainText } from '@/types/Collection'
+import type { SecretPlainTextV2 } from '@/types/Collection'
 
 // components.
 
@@ -20,9 +20,9 @@ export default function SecretPlainTextDetails({
   setSecret,
   setValid,
 }: {
-  secret:    SecretPlainText
+  secret:    SecretPlainTextV2
 
-  setSecret: (secret: SecretPlainText) => void
+  setSecret: (secret: SecretPlainTextV2) => void
   setValid:  (valid: boolean) => void
 }) {
   useEffect(

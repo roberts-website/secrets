@@ -9,7 +9,7 @@ import {
 
 // types.
 
-import type { SecretSSHKey } from '@/types/Collection'
+import type { SecretSSHKeyV2 } from '@/types/Collection'
 
 // components.
 
@@ -28,27 +28,47 @@ export default function SecretSSHKeyDetails({
   setSecret,
   setValid,
 }: {
-  secret: SecretSSHKey
+  secret: SecretSSHKeyV2
 
-  setSecret: (secret: SecretSSHKey) => void
+  setSecret: (secret: SecretSSHKeyV2) => void
   setValid:  (valid: boolean) => void
 }) {
-  const [source,         setSource        ] = useState<Source      >(secret.public.length > 0 && secret.private.length > 0 ? 'existing' : 'new')
-  const [newSecret,      setNewSecret     ] = useState<SecretSSHKey>({ id: secret.id, type: 'ssh-key', name: secret.name, tags: secret.tags ?? [], public: '', private: '' })
-  const [modifiedSecret, setModifiedSecret] = useState<SecretSSHKey>({ ...secret })
+  const [source,         setSource        ] = useState<Source        >(secret.public.length > 0 && secret.private.length > 0 ? 'existing' : 'new')
+  const [modifiedSecret, setModifiedSecret] = useState<SecretSSHKeyV2>({ ...secret })
+
+  const [newSecret, setNewSecret] = useState<SecretSSHKeyV2>({
+    id:   secret.id,
+    type: 'ssh-key',
+
+    createdAt: secret.createdAt,
+    updatedAt: secret.updatedAt,
+
+    name: secret.name,
+    tags: secret.tags ?? [],
+
+    public:  '',
+    private: '',
+  })
 
   useEffect(() => {
     if (source === 'new') {
       setValid(true)
+
       setSecret({
         ...newSecret,
+
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+
         id:   secret.id,
         name: secret.name,
       })
     } else {
       setValid(secret.public.length > 0 && secret.private.length > 0)
+
       setSecret({
         ...modifiedSecret,
+
         id:   secret.id,
         name: secret.name,
       })

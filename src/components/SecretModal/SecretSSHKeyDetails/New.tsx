@@ -9,7 +9,7 @@ import {
 
 // types.
 
-import type { SecretSSHKey } from '@/types/Collection'
+import type { SecretSSHKeyV2 } from '@/types/Collection'
 
 import type {
   SSHKeyPairAlgorithm,
@@ -40,9 +40,9 @@ export default function New({
 
   setSecret,
 }: {
-  secret: SecretSSHKey
+  secret: SecretSSHKeyV2
 
-  setSecret: (secret: SecretSSHKey) => void
+  setSecret: (secret: SecretSSHKeyV2) => void
 }) {
   const [id] = useState<string>(() => secret.id ?? crypto.randomUUID())
 
@@ -80,13 +80,17 @@ export default function New({
         if (cancelled) return
 
         setSecret({
+          id,
           type:    'ssh-key',
+
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+
           name:    secret.name,
           tags:    secret.tags ?? [],
+          
           public:  keyPair.public,
           private: keyPair.private,
-
-          id,
         })
       } finally {
         if (!cancelled) {

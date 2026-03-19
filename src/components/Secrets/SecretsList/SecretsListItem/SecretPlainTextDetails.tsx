@@ -2,7 +2,7 @@
 
 // types.
 
-import type { SecretPlainText } from '@/types/Collection'
+import type { SecretPlainTextV1 } from '@/types/Collection'
 
 // components.
 
@@ -13,7 +13,7 @@ import SecretValue from './SecretValue'
 export default function SecretPlainTextDetails({
   secret,
 }: {
-  secret: SecretPlainText
+  secret: SecretPlainTextV1
 }) {
   return <SecretValue
     label='value.'

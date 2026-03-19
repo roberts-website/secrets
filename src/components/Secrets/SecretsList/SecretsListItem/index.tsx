@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 // types.
 
-import type { Secret } from '@/types/Collection'
+import type { SecretV2 } from '@/types/Collection'
 
 // components.
 
@@ -24,7 +24,7 @@ export default function SecretsListItem({
   onEdit,
   onDelete,
 }: {
-  secret: Secret
+  secret: SecretV2
 
   onMoveUp:   () => void
   onMoveDown: () => void

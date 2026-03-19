@@ -13,7 +13,7 @@ import {
 
 // types.
 
-import type { Secret } from '@/types/Collection'
+import type { SecretV1 } from '@/types/Collection'
 
 import { SecretTypeIcons } from '@/types/Collection'
 
@@ -34,7 +34,7 @@ export default function Header({
   setIsExpanded,
 }: {
   isExpanded: boolean
-  secret:     Secret
+  secret:     SecretV1
 
   onMoveUp:      () => void
   onMoveDown:    () => void

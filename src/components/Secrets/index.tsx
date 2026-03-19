@@ -7,7 +7,10 @@ import { useState } from 'react'
 
 // types.
 
-import type { Collection } from '@/types/Collection'
+import type {
+  CollectionV2,
+  SecretV2,
+} from '@/types/Collection'
 
 // components.
 
@@ -22,8 +25,8 @@ export default function Secrets({
   collection,
   setCollection,
 }: {
-  collection:    Collection
-  setCollection: (collection: Collection) => void
+  collection:    CollectionV2
+  setCollection: (collection: CollectionV2) => void
 }) {
   const [showingNewModal, setShowingNewModal] = useState(false)
 
@@ -45,7 +48,7 @@ export default function Secrets({
     {showingNewModal && <SecretModal
       onClose={() => setShowingNewModal(false)}
 
-      onUpdate={secret => {
+      onUpdate={(secret: SecretV2) => {
         setCollection({
           ...collection,
           secrets: [...collection.secrets, secret],

@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 /// internal dependencies.
 
-import type { Collection } from '@/types/Collection'
+import type { CollectionV2 } from '@/types/Collection'
 
 import FileManager from '@/components/FileManager'
 import Secrets     from '@/components/Secrets'
@@ -12,8 +12,8 @@ import Secrets     from '@/components/Secrets'
 /// component.
 
 function App() {
-  const [collection, setCollection] = useState<Collection>({
-    version: 1,
+  const [collection, setCollection] = useState<CollectionV2>({
+    version: 2,
     title:   '',
     secrets: [],
   })
