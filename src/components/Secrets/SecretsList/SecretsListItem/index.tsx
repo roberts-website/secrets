@@ -45,7 +45,7 @@ export default function SecretsListItem({
       setIsExpanded={setIsExpanded}
     />
 
-    {isExpanded && <div className='border-1 border-[var(--foreground-color-2)] rounded-md p-3 my-1'>
+    {isExpanded && <div className='border-1 border-[var(--foreground-color-2)] rounded-md p-3 my-1 flex flex-col gap-2'>
       {secret.tags.length > 0 && <div className='flex flex-row gap-1 flex-wrap'>
         {secret.tags.map(tag => (
           <span key={tag} className='text-xs border-1 border-[#808080] rounded-md px-2 py-1'>
@@ -53,6 +53,11 @@ export default function SecretsListItem({
           </span>
         ))}
       </div>}
+
+      <div className='flex flex-col gap-1'>
+        <div className='text-xs text-[var(--foreground-color-2)]'>created {new Date(secret.createdAt).toLocaleString()}.</div>
+        <div className='text-xs text-[var(--foreground-color-2)]'>updated {new Date(secret.updatedAt).toLocaleString()}.</div>
+      </div>
 
       {secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret} />}
       {secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret} />}
