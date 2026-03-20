@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client'
 
 // contexts.
 
-import { TagSetProvider } from '@/contexts/TagSet'
+import { CollectionProvider } from '@/contexts/Collection'
 
 // app.
 
@@ -21,8 +21,8 @@ import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <TagSetProvider>
+    <CollectionProvider>
       <App />
-    </TagSetProvider>
+    </CollectionProvider>
   </StrictMode>,
 )

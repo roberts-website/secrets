@@ -24,7 +24,7 @@ import {
 
 // contexts.
 
-import { useTagSet } from '@/contexts/TagSet'
+import { useCollection } from '@/contexts/Collection'
 
 // components.
 
@@ -55,7 +55,7 @@ export default function Import({
   setCollection: (collection: CollectionV2) => void
   setFilename:   (filename: string) => void
 }) {
-  const { setTagSet } = useTagSet()
+  const { setTagSet } = useCollection()
 
   const [importing,       setImporting      ] = useState(false)
   const [showImportError, setShowImportError] = useState(false)

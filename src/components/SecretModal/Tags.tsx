@@ -12,7 +12,7 @@ import type { SecretV2 } from '@/types/Collection'
 
 // contexts.
 
-import { useTagSet } from '@/contexts/TagSet'
+import { useCollection } from '@/contexts/Collection'
 
 // components.
 
@@ -30,7 +30,7 @@ export default function Tags({
 
   setSecret: (secret: SecretV2) => void
 }) {
-  const {tagSet, setTagSet} = useTagSet()
+  const {tagSet, setTagSet} = useCollection()
 
   const [newTag, setNewTag] = useState('')
 
