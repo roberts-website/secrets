@@ -16,40 +16,48 @@ export default function Autocomplete({
   value,
   
   onChange,
-  onSelect,
+  onKeyDown,
 }: {
   label?:  string | undefined
   options: string[]
   value:   string
 
-  onChange: (value: string) => void
-  onSelect: (value: string) => void
+  onChange:  (value: string) => void
+  onKeyDown: (key: string) => void
 }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return <WrappedField label={label}>
-    <input
-      className='flex-1'
-      type     ='text'
-      value    ={value}
-      onChange ={event => onChange(event.target.value)}
+    <div className='relative'>
+      <input
+        className='w-full'
+        type     ='text'
+        value    ={value}
 
-      onFocus={() => setIsOpen(true)}
-      onBlur ={() => setIsOpen(false)}
+        onBlur ={() => setIsOpen(false)}
+        onFocus={() => setIsOpen(true )}
 
-      onKeyDown={event => {
-        if (event.key === 'Enter') {
-          onSelect(value)
-        }
-      }}
-    />
+        onChange ={event => onChange(event.target.value)}
+        onKeyDown={event => onKeyDown(event.key)}
+      />
 
-    {isOpen && <div className='flex flex-col gap-1'>
-      {options.map(option => (
-        <div key={option} onClick={() => onChange(option)}>
-          {option}
-        </div>
-      ))}
-    </div>}
+      {isOpen && <div className='absolute top-full left-0 right-0 z-10 mt-1 flex flex-col border border-2 border-[var(--foreground-color)] bg-[var(--background-color)] shadow-md shadow-[var(--background-color)]'>
+        {options.map(option => (
+          <div
+            className='cursor-pointer hover:bg-[var(--background-color-2)] p-1'
+            key      ={option}
+
+            onMouseDown={event => {
+              event.preventDefault()
+              
+              onChange(option)
+              setIsOpen(false)
+            }}
+          >
+            {option}
+          </div>
+        ))}
+      </div>}
+    </div>
   </WrappedField>
 }

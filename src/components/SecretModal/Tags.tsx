@@ -56,11 +56,13 @@ export default function Tags({
       options={Array.from(tagSet)}
       value  ={newTag}
 
-      onChange={value => setNewTag(value)}
+      onChange={setNewTag}
 
-      onSelect={() => {
-        setSecret({ ...secret, tags: [...secret.tags, newTag] })
-        setNewTag('')
+      onKeyDown={key => {
+        if (key === 'Enter') {
+          setSecret({ ...secret, tags: [...secret.tags, newTag] })
+          setNewTag('')
+        }
       }}
     />
   </WrappedField>
