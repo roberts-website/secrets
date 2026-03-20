@@ -96,7 +96,6 @@ export default function Import({
     {importing && <Waiting />}
 
     <input
-      accept   ='.secrets,.json'
       className='hidden'
       ref      ={fileInputRef}
       type     ='file'
