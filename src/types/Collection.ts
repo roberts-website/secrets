@@ -144,13 +144,10 @@ export function isCollection(value: Collection): boolean {
   if (o.version != Math.floor(o.version)) return false
   if (o.version < 1 || o.version > 2    ) return false
 
+  const version = o.version
+
   if (typeof o.title !== 'string') return false
   if (!Array.isArray(o.secrets)  ) return false
-
-  if (o.version >= 2) {
-    if (typeof o.createdAt !== 'number') return false
-    if (typeof o.updatedAt !== 'number') return false
-  }
 
   return o.secrets.every(s => {
     const sec = s as Record<string, unknown>
@@ -160,6 +157,11 @@ export function isCollection(value: Collection): boolean {
     if (typeof sec.id   !== 'string') return false
     if (typeof sec.name !== 'string') return false
     if (!Array.isArray(sec.tags)    ) return false
+
+    if (version >= 2) {
+      if (typeof sec.createdAt !== 'number') return false
+      if (typeof sec.updatedAt !== 'number') return false
+    }
 
     switch (sec.type) {
       case 'plain-text':
