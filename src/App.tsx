@@ -4,7 +4,11 @@ import { useState } from 'react'
 
 /// internal dependencies.
 
+// types.
+
 import type { CollectionV2 } from '@/types/Collection'
+
+// components.
 
 import FileManager from '@/components/FileManager'
 import Secrets     from '@/components/Secrets'

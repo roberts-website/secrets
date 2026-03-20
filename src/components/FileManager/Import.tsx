@@ -22,6 +22,10 @@ import {
   migrateCollection,
 } from '@/types/Collection'
 
+// contexts.
+
+import { useTagSet } from '@/contexts/TagSet'
+
 // components.
 
 import Button from '@/components/Form/Button'
@@ -51,6 +55,8 @@ export default function Import({
   setCollection: (collection: CollectionV2) => void
   setFilename:   (filename: string) => void
 }) {
+  const { setTagSet } = useTagSet()
+
   const [importing,       setImporting      ] = useState(false)
   const [showImportError, setShowImportError] = useState(false)
 
@@ -58,6 +64,7 @@ export default function Import({
 
   const handleImportClick = useCallback(() => {
     setShowImportError(false)
+
     fileInputRef.current?.click()
   }, [])
 
@@ -80,6 +87,8 @@ export default function Import({
       const base = file.name.replace(/\.(secrets|json)$/i, '')
       
       setFilename(file.name.endsWith('.secrets') ? file.name : `${base}.secrets`)
+
+      setTagSet(new Set(loaded.secrets.flatMap(secret => secret.tags)))
     } catch {
       setShowImportError(true)
     } finally {

@@ -10,6 +10,10 @@ import { useState        } from 'react'
 
 import type { SecretV2 } from '@/types/Collection'
 
+// contexts.
+
+import { useTagSet } from '@/contexts/TagSet'
+
 // components.
 
 import Autocomplete from '@/components/Form/Autocomplete'
@@ -19,15 +23,15 @@ import WrappedField from '@/components/Form/WrappedField'
 
 export default function Tags({
   secret,
-  tagSet,
 
   setSecret,
 }: {
   secret: SecretV2
-  tagSet: Set<string>
 
   setSecret: (secret: SecretV2) => void
 }) {
+  const { tagSet } = useTagSet()
+
   const [newTag, setNewTag] = useState('')
 
   return <WrappedField label='tags.'>

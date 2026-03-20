@@ -5,6 +5,10 @@ import { createRoot } from 'react-dom/client'
 
 /// internal dependencies.
 
+// contexts.
+
+import { TagSetProvider } from '@/contexts/TagSet'
+
 // app.
 
 import App from './App.tsx'
@@ -17,6 +21,8 @@ import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <TagSetProvider>
+      <App />
+    </TagSetProvider>
   </StrictMode>,
 )
