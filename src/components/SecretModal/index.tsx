@@ -76,6 +76,7 @@ export default function SecretModal({
 
       <Tags
         secret   ={internalSecret}
+        tagSet   ={new Set(['a', 'b', 'c'])}
         setSecret={setInternalSecret}
       />
 

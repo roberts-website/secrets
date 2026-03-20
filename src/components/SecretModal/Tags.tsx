@@ -12,25 +12,25 @@ import type { SecretV2 } from '@/types/Collection'
 
 // components.
 
+import Autocomplete from '@/components/Form/Autocomplete'
 import WrappedField from '@/components/Form/WrappedField'
-import TextInput    from '@/components/Form/TextInput'
 
 /// component.
 
 export default function Tags({
   secret,
+  tagSet,
 
   setSecret,
 }: {
   secret: SecretV2
+  tagSet: Set<string>
 
   setSecret: (secret: SecretV2) => void
 }) {
   const [newTag, setNewTag] = useState('')
 
-  return <WrappedField
-    label='tags.'
-  >
+  return <WrappedField label='tags.'>
     <div className='flex flex-row flex-wrap gap-2'>
       {secret.tags.map((tag: string) => {
         return <span
@@ -52,16 +52,15 @@ export default function Tags({
       })}
     </div>
 
-    <TextInput
-      value={newTag}
+    <Autocomplete
+      options={Array.from(tagSet)}
+      value  ={newTag}
 
       onChange={value => setNewTag(value)}
 
-      onKeyDown={key => {
-        if (key === 'Enter') {
-          setSecret({ ...secret, tags: [...secret.tags, newTag] })
-          setNewTag('')
-        }
+      onSelect={() => {
+        setSecret({ ...secret, tags: [...secret.tags, newTag] })
+        setNewTag('')
       }}
     />
   </WrappedField>
