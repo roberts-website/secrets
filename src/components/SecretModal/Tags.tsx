@@ -30,7 +30,7 @@ export default function Tags({
 
   setSecret: (secret: SecretV2) => void
 }) {
-  const { tagSet } = useTagSet()
+  const {tagSet, setTagSet} = useTagSet()
 
   const [newTag, setNewTag] = useState('')
 
@@ -45,10 +45,14 @@ export default function Tags({
             className='cursor-pointer text-[var(--background-color-2)]'
             icon     ={faCircleXmark}
 
-            onClick={() => setSecret({
-              ...secret,
-              tags: secret.tags.filter(t => t !== tag),
-            })}
+            onClick={() => {
+              setSecret({
+                ...secret,
+                tags: secret.tags.filter(t => t !== tag),
+              })
+
+              setTagSet(new Set([...tagSet].filter(t => t !== tag)))
+            }}
           />
 
           {tag}
@@ -66,6 +70,7 @@ export default function Tags({
         if (key === 'Enter') {
           setSecret({ ...secret, tags: [...secret.tags, newTag] })
           setNewTag('')
+          setTagSet(new Set([...tagSet, newTag]))
         }
       }}
     />
