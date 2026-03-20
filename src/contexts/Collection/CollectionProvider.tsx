@@ -1,34 +1,12 @@
-/// external dependencies.
-
 import {
-  type Dispatch,
   type ReactNode,
-  type SetStateAction,
-  
-  createContext,
   useCallback,
-  useContext,
   useState,
 } from 'react'
 
-/// internal dependencies.
-
-// types.
-
 import type { CollectionV2 } from '@/types/Collection'
 
-/// types.
-
-type CollectionContextValue = {
-  collection:    CollectionV2
-  setCollection: Dispatch<SetStateAction<CollectionV2>>
-  tagSet:        Set<string>
-  updateTagSet:  () => void
-}
-
-/// context.
-
-const CollectionContext = createContext<CollectionContextValue | null>(null)
+import { CollectionContext } from './collection-context'
 
 export function CollectionProvider({
   children,
@@ -57,12 +35,4 @@ export function CollectionProvider({
   >
     {children}
   </CollectionContext.Provider>
-}
-
-export function useCollection() {
-  const ctx = useContext(CollectionContext)
-
-  if (!ctx) throw new Error('useCollection must be used within CollectionProvider.')
-
-  return ctx
 }
