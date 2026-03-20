@@ -30,7 +30,7 @@ export default function Tags({
 
   setSecret: (secret: SecretV2) => void
 }) {
-  const {tagSet, setTagSet} = useCollection()
+  const {tagSet, updateTagSet} = useCollection()
 
   const [newTag, setNewTag] = useState('')
 
@@ -51,7 +51,7 @@ export default function Tags({
                 tags: secret.tags.filter(t => t !== tag),
               })
 
-              setTagSet(new Set([...tagSet].filter(t => t !== tag)))
+              updateTagSet()
             }}
           />
 
@@ -70,7 +70,7 @@ export default function Tags({
         if (key === 'Enter') {
           setSecret({ ...secret, tags: [...secret.tags, newTag] })
           setNewTag('')
-          setTagSet(new Set([...tagSet, newTag]))
+          updateTagSet()
         }
       }}
     />

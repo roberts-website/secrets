@@ -6,6 +6,7 @@ import {
   type SetStateAction,
   
   createContext,
+  useCallback,
   useContext,
   useState,
 } from 'react'
@@ -22,7 +23,7 @@ type CollectionContextValue = {
   collection:    CollectionV2
   setCollection: Dispatch<SetStateAction<CollectionV2>>
   tagSet:        Set<string>
-  setTagSet:     Dispatch<SetStateAction<Set<string>>>
+  updateTagSet:  () => void
 }
 
 /// context.
@@ -42,12 +43,16 @@ export function CollectionProvider({
 
   const [tagSet, setTagSet] = useState<Set<string>>(() => new Set())
 
+  const updateTagSet = useCallback(() => {
+    setTagSet(new Set(collection.secrets.flatMap(secret => secret.tags).sort()))
+  }, [collection])
+
   return <CollectionContext.Provider
     value={{
       collection,
       setCollection,
       tagSet,
-      setTagSet,
+      updateTagSet,
     }}
   >
     {children}

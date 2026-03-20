@@ -55,7 +55,7 @@ export default function Import({
   setCollection: (collection: CollectionV2) => void
   setFilename:   (filename: string) => void
 }) {
-  const { setTagSet } = useCollection()
+  const { updateTagSet } = useCollection()
 
   const [importing,       setImporting      ] = useState(false)
   const [showImportError, setShowImportError] = useState(false)
@@ -88,7 +88,7 @@ export default function Import({
       
       setFilename(file.name.endsWith('.secrets') ? file.name : `${base}.secrets`)
 
-      setTagSet(new Set(loaded.secrets.flatMap(secret => secret.tags)))
+      updateTagSet()
     } catch {
       setShowImportError(true)
     } finally {
