@@ -1,12 +1,23 @@
+/// external dependencies.
+
 import {
   type ReactNode,
+
   useCallback,
   useState,
 } from 'react'
 
+/// internal dependencies.
+
+// types.
+
 import type { CollectionV2 } from '@/types/Collection'
 
+// contexts.
+
 import { CollectionContext } from './collection-context'
+
+/// component.
 
 export function CollectionProvider({
   children,

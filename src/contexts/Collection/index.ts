@@ -1,2 +1,4 @@
+/// internal dependencies.
+
 export { CollectionProvider } from './CollectionProvider'
-export { useCollection } from './useCollection'
+export { useCollection      } from './useCollection'
