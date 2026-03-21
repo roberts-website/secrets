@@ -3,7 +3,7 @@
 import {
   type ReactNode,
 
-  useCallback,
+  useMemo,
   useState,
 } from 'react'
 
@@ -30,18 +30,16 @@ export function CollectionProvider({
     secrets: [],
   }))
 
-  const [tagSet, setTagSet] = useState<Set<string>>(() => new Set())
-
-  const updateTagSet = useCallback(() => {
-    setTagSet(new Set(collection.secrets.flatMap(secret => secret.tags).sort()))
-  }, [collection])
+  const tagSet = useMemo(
+    () => new Set(collection.secrets.flatMap(secret => secret.tags).sort()),
+    [collection],
+  )
 
   return <CollectionContext.Provider
     value={{
       collection,
       setCollection,
       tagSet,
-      updateTagSet,
     }}
   >
     {children}

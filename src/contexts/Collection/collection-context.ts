@@ -19,7 +19,6 @@ export type CollectionContextValue = {
   collection:    CollectionV2
   setCollection: Dispatch<SetStateAction<CollectionV2>>
   tagSet:        Set<string>
-  updateTagSet:  () => void
 }
 
 export const CollectionContext = createContext<CollectionContextValue | null>(null)

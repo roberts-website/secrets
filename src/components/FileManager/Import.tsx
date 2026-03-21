@@ -22,10 +22,6 @@ import {
   migrateCollection,
 } from '@/types/Collection'
 
-// contexts.
-
-import { useCollection } from '@/contexts/Collection'
-
 // components.
 
 import Button from '@/components/Form/Button'
@@ -55,8 +51,6 @@ export default function Import({
   setCollection: (collection: CollectionV2) => void
   setFilename:   (filename: string) => void
 }) {
-  const { updateTagSet } = useCollection()
-
   const [importing,       setImporting      ] = useState(false)
   const [showImportError, setShowImportError] = useState(false)
 
@@ -87,8 +81,6 @@ export default function Import({
       const base = file.name.replace(/\.(secrets|json)$/i, '')
       
       setFilename(file.name.endsWith('.secrets') ? file.name : `${base}.secrets`)
-
-      updateTagSet()
     } catch {
       setShowImportError(true)
     } finally {
