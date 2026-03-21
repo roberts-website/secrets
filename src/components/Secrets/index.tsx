@@ -12,6 +12,10 @@ import type {
   SecretV2,
 } from '@/types/Collection'
 
+// contexts.
+
+import { useCollection } from '@/contexts/Collection'
+
 // components.
 
 import SecretModal from '../SecretModal'
@@ -21,13 +25,9 @@ import Button from '@/components/Form/Button'
 
 /// component.
 
-export default function Secrets({
-  collection,
-  setCollection,
-}: {
-  collection:    CollectionV2
-  setCollection: (collection: CollectionV2) => void
-}) {
+export default function Secrets() {
+  const { collection, setCollection } = useCollection()
+  
   const [showingNewModal, setShowingNewModal] = useState(false)
 
   return <div className='flex-1 flex flex-col gap-4'>

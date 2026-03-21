@@ -22,6 +22,10 @@ import {
   migrateCollection,
 } from '@/types/Collection'
 
+// contexts.
+
+import { useCollection } from '@/contexts/Collection'
+
 // components.
 
 import Button from '@/components/Form/Button'
@@ -45,12 +49,12 @@ async function loadFromFile(file: File): Promise<CollectionV2> {
 /// component.
 
 export default function Import({
-  setCollection,
   setFilename,
 }: {
-  setCollection: (collection: CollectionV2) => void
   setFilename:   (filename: string) => void
 }) {
+  const { setCollection } = useCollection()
+  
   const [importing,       setImporting      ] = useState(false)
   const [showImportError, setShowImportError] = useState(false)
 

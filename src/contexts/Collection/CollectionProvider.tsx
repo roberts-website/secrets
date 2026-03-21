@@ -31,7 +31,14 @@ export function CollectionProvider({
   }))
 
   const tagSet = useMemo(
-    () => new Set(collection.secrets.flatMap(secret => secret.tags).sort()),
+    () => {
+      return new Set(
+        collection
+          .secrets
+          .flatMap(secret => secret.tags)
+          .sort()
+      )
+    },
     [collection],
   )
 

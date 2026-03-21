@@ -8,6 +8,10 @@ import { faFileExport } from '@fortawesome/free-solid-svg-icons'
 
 import type { CollectionV2 } from '@/types/Collection'
 
+// contexts.
+
+import { useCollection } from '@/contexts/Collection'
+
 // components.
 
 import Button from '@/components/Form/Button'
@@ -41,12 +45,12 @@ function saveAsFile(collection: CollectionV2, filename: string | null): void {
 /// component.
 
 export default function Export({
-  collection,
   filename,
 }: {
-  collection: CollectionV2
-  filename:   string | null
+  filename: string | null
 }) {
+  const { collection } = useCollection()
+
   return <Button
     className='flex-1 md:flex-none'
     icon     ={faFileExport}

@@ -4,9 +4,9 @@ import { useState } from 'react'
 
 /// internal dependencies.
 
-// types.
+// contexts.
 
-import type { CollectionV2 } from '@/types/Collection'
+import { useCollection } from '@/contexts/Collection'
 
 // components.
 
@@ -15,13 +15,9 @@ import Import from './Import'
 
 /// component.
 
-export default function FileManager({
-  collection,
-  setCollection,
-}: {
-  collection:    CollectionV2
-  setCollection: (collection: CollectionV2) => void
-}) {
+export default function FileManager() {
+  const { collection, setCollection } = useCollection()
+
   const [filename, setFilename] = useState<string | null>(null)
 
   return <div className='flex flex-col md:flex-row gap-4'>
@@ -38,15 +34,8 @@ export default function FileManager({
     />
 
     <div className='flex flex-row gap-4'>
-      <Import
-        setCollection={setCollection}
-        setFilename  ={setFilename}
-      />
-      
-      <Export
-        collection={collection}
-        filename  ={filename}
-      />
+      <Import setFilename={setFilename} />
+      <Export filename={filename} />
     </div>
   </div>
 }
