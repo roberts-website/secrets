@@ -4,4 +4,6 @@
   * by tag
   * by date
   * by title
-* add confirmation if leaving with unsaved changes
+* add confirmation if leaving app with unsaved changes
+* add confirmation if leaving secrets modal with unsaved changes
+* update options for tag autocomplete with current secret's unsaved tags in secrets modal

@@ -7,10 +7,7 @@ import { useState } from 'react'
 
 // types.
 
-import type {
-  CollectionV2,
-  SecretV2,
-} from '@/types/Collection'
+import type { SecretV2 } from '@/types/Collection'
 
 // contexts.
 
@@ -27,7 +24,7 @@ import Button from '@/components/Form/Button'
 
 export default function Secrets() {
   const { collection, setCollection } = useCollection()
-  
+
   const [showingNewModal, setShowingNewModal] = useState(false)
 
   return <div className='flex-1 flex flex-col gap-4'>
