@@ -66,7 +66,17 @@ export default function Tags({
 
       onKeyDown={key => {
         if (key === 'Enter') {
-          setSecret({ ...secret, tags: [...secret.tags, newTag] })
+          const sanitizedTag = newTag
+                                 .trim()
+                                 .toLowerCase()
+                                 .replace(/\s+/g, '-')
+                                 .replace(/[^-a-z0-9\.]/g, '')
+
+          if (secret.tags.includes(sanitizedTag)) {
+            return
+          }
+
+          setSecret({ ...secret, tags: [...secret.tags, sanitizedTag] })
           setNewTag('')
         }
       }}
