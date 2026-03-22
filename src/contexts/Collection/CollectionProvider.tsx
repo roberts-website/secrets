@@ -24,6 +24,8 @@ export function CollectionProvider({
 }: {
   children: ReactNode
 }) {
+  const [unsavedChanges, setUnsavedChanges] = useState(false)
+
   const [collection, setCollection] = useState<CollectionV2>(() => ({
     version: 2,
     title:   '',
@@ -46,6 +48,10 @@ export function CollectionProvider({
     value={{
       collection,
       setCollection,
+
+      unsavedChanges,
+      setUnsavedChanges,
+
       tagSet,
     }}
   >
