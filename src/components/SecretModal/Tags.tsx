@@ -74,7 +74,7 @@ export default function Tags({
                                  .trim()
                                  .toLowerCase()
                                  .replace(/\s+/g, '-')
-                                 .replace(/[^-a-z0-9\.]/g, '')
+                                 .replace(/[^-a-z0-9.]/g, '')
 
           if (secret.tags.includes(sanitizedTag)) {
             return

@@ -18,10 +18,6 @@ import {
   newSecret,
 } from '@/types/Collection'
 
-// contexts.
-
-import { useSecret } from '@/contexts/Secret'
-
 // components.
 
 import SecretPlainTextDetails from './SecretPlainTextDetails'
@@ -56,7 +52,7 @@ export default function SecretModal({
   return <Modal
     title={isNew ? 'new secret.' : 'edit secret.'}
     
-    onClose={event => {
+    onClose={() => {
       if (!unsavedChanges) {
         onClose()
         return
@@ -65,8 +61,6 @@ export default function SecretModal({
       if (confirm('You have unsaved changes. Are you sure you want to close?')) {
         onClose()
       }
-
-      onClose()
     }}
   >
     <div className='flex flex-col gap-4 w-96'>
