@@ -25,10 +25,12 @@ export default function Tags({
   secret,
 
   setSecret,
+  onChange,
 }: {
   secret: SecretV2
 
   setSecret: (secret: SecretV2) => void
+  onChange:  () => void
 }) {
   const { tagSet } = useCollection()
 
@@ -50,6 +52,8 @@ export default function Tags({
                 ...secret,
                 tags: secret.tags.filter(t => t !== tag),
               })
+
+              onChange()
             }}
           />
 
@@ -78,6 +82,8 @@ export default function Tags({
 
           setSecret({ ...secret, tags: [...secret.tags, sanitizedTag] })
           setNewTag('')
+
+          onChange()
         }
       }}
     />

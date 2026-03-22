@@ -19,11 +19,13 @@ export default function SecretPlainTextDetails({
 
   setSecret,
   setValid,
+  onChange,
 }: {
   secret:    SecretPlainTextV2
 
   setSecret: (secret: SecretPlainTextV2) => void
   setValid:  (valid: boolean) => void
+  onChange:  () => void
 }) {
   useEffect(
     () => setValid(secret.value.length > 0),
@@ -38,6 +40,9 @@ export default function SecretPlainTextDetails({
     label    ='value.'
     value    ={secret.value}
 
-    onChange={value => setSecret({ ...secret, value })}
+    onChange={value =>{
+      setSecret({ ...secret, value })
+      onChange()
+    }}
   />
 }

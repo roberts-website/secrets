@@ -39,10 +39,12 @@ export default function New({
   secret,
 
   setSecret,
+  onChange,
 }: {
   secret: SecretSSHKeyV2
 
   setSecret: (secret: SecretSSHKeyV2) => void
+  onChange:  () => void
 }) {
   const [id] = useState<string>(() => secret.id ?? crypto.randomUUID())
 
@@ -122,7 +124,10 @@ export default function New({
       label   ='algorithm.'
       value   ={algorithm}
       options ={Object.entries(SSHKeyPairAlgorithmNames).map(([algorithm, name]) => ({ label: name, value: algorithm }))}
-      onChange={(value: string) => setAlgorithm(value as SSHKeyPairAlgorithm)}
+      onChange={(value: string) =>{
+        setAlgorithm(value as SSHKeyPairAlgorithm)
+        onChange()
+      }}
     />
 
     {algorithm === 'rsa' && <>
@@ -131,7 +136,10 @@ export default function New({
         label   ='key size.'
         value   ={keySize.toString()}
         options ={Object.entries(SSHKeyPairRSAKeySizeNames).map(([keySize, name]) => ({ label: name, value: keySize }))}
-        onChange={(value: string) => setKeySize(parseInt(value) as SSHKeyPairRSAKeySize)}
+        onChange={(value: string) =>{
+          setKeySize(parseInt(value) as SSHKeyPairRSAKeySize)
+          onChange()
+        }}
       />
     </>}
 
@@ -141,7 +149,10 @@ export default function New({
         label   ='curve.'
         value   ={curve.toString()}
         options ={Object.entries(SSHKeyPairECDSACurveNames).map(([curve, name]) => ({ label: name, value: curve }))}
-        onChange={(value: string) => setCurve(parseInt(value) as SSHKeyPairECDSACurve)}
+        onChange={(value: string) =>{
+          setCurve(parseInt(value) as SSHKeyPairECDSACurve)
+          onChange()
+        }}
       />
     </>}
   </>

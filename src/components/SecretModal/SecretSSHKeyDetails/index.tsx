@@ -27,11 +27,13 @@ export default function SecretSSHKeyDetails({
 
   setSecret,
   setValid,
+  onChange,
 }: {
   secret: SecretSSHKeyV2
 
   setSecret: (secret: SecretSSHKeyV2) => void
   setValid:  (valid: boolean) => void
+  onChange:  () => void
 }) {
   const [source,         setSource        ] = useState<Source        >(secret.public.length > 0 && secret.private.length > 0 ? 'existing' : 'new')
   const [modifiedSecret, setModifiedSecret] = useState<SecretSSHKeyV2>({ ...secret })
@@ -95,17 +97,24 @@ export default function SecretSSHKeyDetails({
         { label: 'existing.', value: 'existing' },
       ]}
 
-      onChange={value => setSource(value as Source)}
+      onChange={value =>{
+        setSource(value as Source)
+        onChange()
+      }}
     />
 
     {source === 'new' && <New
       secret   ={newSecret}
       setSecret={setNewSecret}
+
+      onChange={onChange}
     />}
 
     {source === 'existing' && <Existing
       secret   ={modifiedSecret}
       setSecret={setModifiedSecret}
+
+      onChange={onChange}
     />}
   </>
 }

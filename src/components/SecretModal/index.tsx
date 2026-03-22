@@ -101,7 +101,8 @@ export default function SecretModal({
       <Tags
         secret   ={internalSecret}
         setSecret={setInternalSecret}
-        onChange ={() => setUnsavedChanges(true)}
+
+        onChange={() => setUnsavedChanges(true)}
       />
 
       {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
@@ -122,7 +123,7 @@ export default function SecretModal({
     
       <Button
         icon    ={faFloppyDisk}
-        disabled={!internalSecret.name || !valid}
+        disabled={!internalSecret.name || !valid || !unsavedChanges}
 
         onClick={() => onUpdate(internalSecret)}
       >
