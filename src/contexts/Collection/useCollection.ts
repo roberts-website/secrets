@@ -6,7 +6,7 @@ import { useContext } from 'react'
 
 // contexts.
 
-import { CollectionContext } from './collection-context'
+import { CollectionContext } from './types'
 
 /// component.
 

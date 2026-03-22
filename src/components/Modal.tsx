@@ -1,3 +1,14 @@
+/// types.
+
+export type OnCloseAttributes = {
+  event: {
+    cancel:  () => void
+    confirm: () => void
+  }
+}
+
+export type OnCloseEvent = (event: OnCloseAttributes) => void | Promise<void>
+
 /// component.
 
 export default function Modal({
@@ -5,20 +16,27 @@ export default function Modal({
   title,
   zIndex = 1,
 
-  onClose,
+  onClose = undefined,
 }: {
   children: React.ReactNode
   title:    string
   zIndex?:  number
 
-  onClose: () => void
+  onClose?: OnCloseEvent | undefined
 }) {
   return <div className='fixed inset-0 flex items-center justify-center'>
     <div
       className='fixed inset-0 bg-[var(--background-color)] opacity-70'
       style    ={{ zIndex }}
 
-      onClick={onClose}
+      onClick={() => {
+        onClose?.({
+          event: {
+            cancel:  () => undefined,
+            confirm: () => undefined,
+          },
+        })
+      }}
     />
     
     <div

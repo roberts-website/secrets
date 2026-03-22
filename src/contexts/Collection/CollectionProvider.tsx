@@ -15,9 +15,9 @@ import type { CollectionV2 } from '@/types/Collection'
 
 // contexts.
 
-import { CollectionContext } from './collection-context'
+import { CollectionContext } from './types'
 
-/// component.
+/// provider.
 
 export function CollectionProvider({
   children,

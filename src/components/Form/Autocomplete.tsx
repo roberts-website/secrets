@@ -41,7 +41,7 @@ export default function Autocomplete({
         onKeyDown={event => onKeyDown(event.key)}
       />
 
-      {isOpen && <div className='absolute top-full left-0 right-0 z-10 mt-1 flex flex-col border border-2 border-[var(--foreground-color)] bg-[var(--background-color)] shadow-md shadow-[var(--background-color)]'>
+      {isOpen && <div className='absolute top-full left-0 right-0 z-10 flex flex-col border-l-2 border-r-2 border-b-2 border-[var(--foreground-color)] outline-l-2 outline-r-2 outline-b-2 outline-[var(--background-color)] bg-[var(--background-color)] shadow-md shadow-[var(--background-color)]'>
         {options.map(option => (
           <div
             className='cursor-pointer hover:bg-[var(--background-color-2)] p-1'

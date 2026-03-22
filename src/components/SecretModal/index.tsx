@@ -18,6 +18,10 @@ import {
   newSecret,
 } from '@/types/Collection'
 
+// contexts.
+
+import { useSecret } from '@/contexts/Secret'
+
 // components.
 
 import SecretPlainTextDetails from './SecretPlainTextDetails'
@@ -44,13 +48,26 @@ export default function SecretModal({
   onUpdate: (secret: SecretV2) => void
 }) {
   const [internalSecret, setInternalSecret] = useState<SecretV2>(secret ?? newSecret('plain-text'))
-  const [valid,          setValid         ] = useState<boolean >(false                            )
+  const [valid,          setValid         ] = useState<boolean >(false)
+  const [unsavedChanges, setUnsavedChanges] = useState<boolean >(false)
 
   const [isNew] = useState<boolean>(() => !secret)
 
   return <Modal
-    title  ={isNew ? 'new secret.' : 'edit secret.'}
-    onClose={onClose}
+    title={isNew ? 'new secret.' : 'edit secret.'}
+    
+    onClose={event => {
+      if (!unsavedChanges) {
+        onClose()
+        return
+      }
+
+      if (confirm('You have unsaved changes. Are you sure you want to close?')) {
+        onClose()
+      }
+
+      onClose()
+    }}
   >
     <div className='flex flex-col gap-4 w-96'>
       <Select
@@ -60,35 +77,47 @@ export default function SecretModal({
         options ={Object.entries(SecretTypeNames).map(([type, name]) => ({ label: name, value: type }))}
         value   ={internalSecret.type}
 
-        onChange={value => setInternalSecret({
-          ...newSecret(value as SecretType),
-          name: internalSecret.name,
-          tags: internalSecret.tags,
-        })}
+        onChange={value => {
+          setInternalSecret({
+            ...newSecret(value as SecretType),
+            name: internalSecret.name,
+            tags: internalSecret.tags,
+          })
+
+          setUnsavedChanges(true)
+        }}
       />
 
       <TextInput
         label='name.'
         value={internalSecret.name}
         
-        onChange={value => setInternalSecret({ ...internalSecret, name: value })}
+        onChange={value => {
+          setInternalSecret({ ...internalSecret, name: value })
+          setUnsavedChanges(true)
+        }}
       />
 
       <Tags
         secret   ={internalSecret}
         setSecret={setInternalSecret}
+        onChange ={() => setUnsavedChanges(true)}
       />
 
       {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
+
+        onChange={() => setUnsavedChanges(true)}
       />}
 
       {internalSecret.type === 'ssh-key' && <SecretSSHKeyDetails
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
+
+        onChange={() => setUnsavedChanges(true)}
       />}
     
       <Button
