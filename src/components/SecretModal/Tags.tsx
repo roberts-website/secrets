@@ -68,23 +68,21 @@ export default function Tags({
 
       onChange={setNewTag}
 
-      onKeyDown={key => {
-        if (key === 'Enter') {
-          const sanitizedTag = newTag
-                                 .trim()
-                                 .toLowerCase()
-                                 .replace(/\s+/g, '-')
-                                 .replace(/[^-a-z0-9.]/g, '')
+      onSelect={value => {
+        const sanitizedTag = value
+                               .trim()
+                               .toLowerCase()
+                               .replace(/\s+/g, '-')
+                               .replace(/[^-a-z0-9.]/g, '')
 
-          if (secret.tags.includes(sanitizedTag)) {
-            return
-          }
-
-          setSecret({ ...secret, tags: [...secret.tags, sanitizedTag] })
-          setNewTag('')
-
-          onChange()
+        if (secret.tags.includes(sanitizedTag)) {
+          return
         }
+
+        setSecret({ ...secret, tags: [...secret.tags, sanitizedTag] })
+        setNewTag('')
+
+        onChange()
       }}
     />
   </WrappedField>
