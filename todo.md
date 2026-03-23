@@ -7,5 +7,3 @@
 * add confirmation if leaving app with unsaved changes
 * add confirmation if overwriting an existing ssh key with a newly generated one
 * update options for tag autocomplete with current secret's unsaved tags in secrets modal
-* add text filtering in autocomplete field
-* use secret provider in secret modal
