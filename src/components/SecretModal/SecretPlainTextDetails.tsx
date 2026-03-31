@@ -21,7 +21,7 @@ export default function SecretPlainTextDetails({
   setValid,
   onChange,
 }: {
-  secret:    SecretPlainTextV2
+  secret: SecretPlainTextV2
 
   setSecret: (secret: SecretPlainTextV2) => void
   setValid:  (valid: boolean) => void
