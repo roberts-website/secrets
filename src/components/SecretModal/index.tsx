@@ -22,6 +22,7 @@ import {
 
 import SecretPlainTextDetails from './SecretPlainTextDetails'
 import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
+import SecretTokenDetails     from './SecretTokenDetails'
 import Tags                   from './Tags'
 
 import Button    from '@/components/Form/Button'
@@ -108,6 +109,14 @@ export default function SecretModal({
       />}
 
       {internalSecret.type === 'ssh-key' && <SecretSSHKeyDetails
+        secret   ={internalSecret}
+        setSecret={setInternalSecret}
+        setValid ={setValid}
+
+        onChange={() => setUnsavedChanges(true)}
+      />}
+
+      {internalSecret.type === 'token' && <SecretTokenDetails
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}

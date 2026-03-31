@@ -13,6 +13,7 @@ import type { SecretV2 } from '@/types/Collection'
 import Header                 from './Header'
 import SecretPlainTextDetails from './SecretPlainTextDetails'
 import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
+import SecretTokenDetails     from './SecretTokenDetails'
 
 /// component.
 
@@ -61,6 +62,7 @@ export default function SecretsListItem({
 
       {secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret} />}
       {secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret} />}
+      {secret.type === 'token'      && <SecretTokenDetails     secret={secret} />}
     </div>}
   </div>
 }

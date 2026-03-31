@@ -4,21 +4,24 @@ import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 import {
   faAlignLeft,
+  faCircle,
   faKey,
 } from '@fortawesome/free-solid-svg-icons'
 
 /// types.
 
-export type SecretType = 'plain-text' | 'ssh-key'
+export type SecretType = 'plain-text' | 'ssh-key' | 'token'
 
 export const SecretTypeNames: Record<SecretType, string> = {
   'plain-text': 'plain text.',
   'ssh-key':    'ssh key.',
+  'token':      'token.',
 }
 
 export const SecretTypeIcons: Record<SecretType, IconDefinition> = {
   'plain-text': faAlignLeft,
   'ssh-key':    faKey,
+  'token':      faCircle,
 }
 
 export type SecretBaseV1 = {
@@ -60,8 +63,13 @@ export type SecretSSHKeyV2 = SecretBaseV2 & {
   private: string
 }
 
+export type SecretTokenV2 = SecretBaseV2 & {
+  type:  'token'
+  value: string
+}
+
 export type SecretV1 = SecretPlainTextV1 | SecretSSHKeyV1
-export type SecretV2 = SecretPlainTextV2 | SecretSSHKeyV2
+export type SecretV2 = SecretPlainTextV2 | SecretSSHKeyV2 | SecretTokenV2
 
 export type CollectionBase = {
   version: number
@@ -109,6 +117,19 @@ export function newSecret(type: SecretType): SecretV2 {
 
         public:  '',
         private: '',
+      }
+    case 'token':
+      return {
+        id:   crypto.randomUUID(),
+        type: 'token',
+
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+
+        name: '',
+        tags: [],
+
+        value: '',
       }
     default:
       throw new Error(`unknown secret type. \`${type}\``)
@@ -171,6 +192,11 @@ export function isCollection(value: Collection): boolean {
       case 'ssh-key':
         if (typeof sec.public  !== 'string') return false
         if (typeof sec.private !== 'string') return false
+
+        return true
+      case 'token':
+        if (version < 2)                   return false
+        if (typeof sec.value !== 'string') return false
 
         return true
     }
