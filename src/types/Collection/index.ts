@@ -9,6 +9,23 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
 
+/// internal dependencies.
+
+// types.
+
+import type { SecretTokenV2    } from '@/types/Collection/Secrets/Token'
+import type { SecretPasswordV2 } from '@/types/Collection/Secrets/Password'
+
+import type {
+  SecretPlainTextV1,
+  SecretPlainTextV2,
+} from '@/types/Collection/Secrets/PlainText'
+
+import type {
+  SecretSSHKeyV1,
+  SecretSSHKeyV2,
+} from '@/types/Collection/Secrets/SSHKey'
+
 /// types.
 
 export type SecretType = 'plain-text' | 'ssh-key' | 'token' | 'password'
@@ -27,55 +44,6 @@ export const SecretTypeIcons: Record<SecretType, IconDefinition> = {
   'password':   faUser,
 }
 
-export type SecretBaseV1 = {
-  id: string
-
-  name: string
-  tags: readonly string[]
-}
-
-export type SecretBaseV2 = {
-  id: string
-  
-  createdAt: number
-  updatedAt: number
-
-  name: string
-  tags: readonly string[]
-}
-
-export type SecretPlainTextV1 = SecretBaseV1 & {
-  type:  'plain-text'
-  value: string
-}
-
-export type SecretPlainTextV2 = SecretBaseV2 & {
-  type:  'plain-text'
-  value: string
-}
-
-export type SecretSSHKeyV1 = SecretBaseV1 & {
-  type:    'ssh-key'
-  public:  string
-  private: string
-}
-
-export type SecretSSHKeyV2 = SecretBaseV2 & {
-  type:    'ssh-key'
-  public:  string
-  private: string
-}
-
-export type SecretTokenV2 = SecretBaseV2 & {
-  type:  'token'
-  value: string
-}
-
-export type SecretPasswordV2 = SecretBaseV2 & {
-  type:     'password'
-  user:     string
-  password: string
-}
 
 export type SecretV1 = SecretPlainTextV1
                      | SecretSSHKeyV1

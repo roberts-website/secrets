@@ -2,7 +2,7 @@
 
 // types.
 
-import type { SecretPlainTextV1 } from '@/types/Collection'
+import type { SecretPlainTextV1 } from '@/types/Collection/index'
 
 // components.
 

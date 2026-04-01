@@ -9,7 +9,7 @@ import { useState } from 'react'
 import type {
   CollectionV2,
   SecretV2,
-} from '@/types/Collection'
+} from '@/types/Collection/index'
 
 // components.
 

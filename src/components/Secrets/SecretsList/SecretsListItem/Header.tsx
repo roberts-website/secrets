@@ -13,9 +13,9 @@ import {
 
 // types.
 
-import type { SecretV2 } from '@/types/Collection'
+import type { SecretV2 } from '@/types/Collection/index'
 
-import { SecretTypeIcons } from '@/types/Collection'
+import { SecretTypeIcons } from '@/types/Collection/index'
 
 // components.
 

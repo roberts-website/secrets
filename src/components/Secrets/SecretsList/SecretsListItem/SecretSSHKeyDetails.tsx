@@ -2,7 +2,7 @@
 
 // types.
 
-import type { SecretSSHKeyV1 } from '@/types/Collection'
+import type { SecretSSHKeyV1 } from '@/types/Collection/index'
 
 // components.
 

@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 // types.
 
-import type { SecretV2 } from '@/types/Collection'
+import type { SecretV2 } from '@/types/Collection/index'
 
 // components.
 

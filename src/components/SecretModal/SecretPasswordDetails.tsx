@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 // types.
 
-import type { SecretPasswordV2 } from '@/types/Collection'
+import type { SecretPasswordV2 } from '@/types/Collection/index'
 
 // components.
 

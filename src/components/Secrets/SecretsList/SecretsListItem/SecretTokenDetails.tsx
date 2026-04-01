@@ -2,7 +2,7 @@
 
 // types.
 
-import type { SecretTokenV2 } from '@/types/Collection'
+import type { SecretTokenV2 } from '@/types/Collection/index'
 
 // components.
 

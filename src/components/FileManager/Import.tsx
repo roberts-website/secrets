@@ -15,12 +15,12 @@ import {
 import type {
   Collection,
   CollectionV2,
-} from '@/types/Collection'
+} from '@/types/Collection/index'
 
 import {
   isCollection,
   migrateCollection,
-} from '@/types/Collection'
+} from '@/types/Collection/index'
 
 // contexts.
 

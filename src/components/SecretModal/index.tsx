@@ -10,13 +10,13 @@ import { useState     } from 'react'
 import type {
   SecretType,
   SecretV2,
-} from '@/types/Collection'
+} from '@/types/Collection/index'
 
 import {
   SecretTypeIcons,
   SecretTypeNames,
   newSecret,
-} from '@/types/Collection'
+} from '@/types/Collection/index'
 
 // components.
 

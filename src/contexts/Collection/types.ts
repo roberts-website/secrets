@@ -11,7 +11,7 @@ import {
 
 // types.
 
-import type { CollectionV2 } from '@/types/Collection'
+import type { CollectionV2 } from '@/types/Collection/index'
 
 /// types.
 

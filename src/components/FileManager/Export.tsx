@@ -6,7 +6,7 @@ import { faFileExport } from '@fortawesome/free-solid-svg-icons'
 
 // types.
 
-import type { CollectionV2 } from '@/types/Collection'
+import type { CollectionV2 } from '@/types/Collection/index'
 
 // contexts.
 
