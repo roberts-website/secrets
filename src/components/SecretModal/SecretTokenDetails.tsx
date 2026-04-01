@@ -10,7 +10,7 @@ import type { SecretTokenV2 } from '@/types/Collection'
 
 // components.
 
-import TextInput from '@/components/Form/TextArea'
+import TextInput from '@/components/Form/TextInput'
 
 /// component.
 
