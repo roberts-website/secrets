@@ -6,22 +6,25 @@ import {
   faAlignLeft,
   faCircle,
   faKey,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons'
 
 /// types.
 
-export type SecretType = 'plain-text' | 'ssh-key' | 'token'
+export type SecretType = 'plain-text' | 'ssh-key' | 'token' | 'password'
 
 export const SecretTypeNames: Record<SecretType, string> = {
   'plain-text': 'plain text.',
   'ssh-key':    'ssh key.',
   'token':      'token.',
+  'password':   'password.',
 }
 
 export const SecretTypeIcons: Record<SecretType, IconDefinition> = {
   'plain-text': faAlignLeft,
   'ssh-key':    faKey,
   'token':      faCircle,
+  'password':   faUser,
 }
 
 export type SecretBaseV1 = {
@@ -68,9 +71,20 @@ export type SecretTokenV2 = SecretBaseV2 & {
   value: string
 }
 
-export type SecretV1 = SecretPlainTextV1 | SecretSSHKeyV1
-export type SecretV2 = SecretPlainTextV2 | SecretSSHKeyV2 | SecretTokenV2
+export type SecretPasswordV2 = SecretBaseV2 & {
+  type:     'password'
+  user:     string
+  password: string
+}
 
+export type SecretV1 = SecretPlainTextV1
+                     | SecretSSHKeyV1
+
+export type SecretV2 = SecretPasswordV2
+                     | SecretPlainTextV2
+                     | SecretSSHKeyV2
+                     | SecretTokenV2
+                     
 export type CollectionBase = {
   version: number
 }
@@ -130,6 +144,20 @@ export function newSecret(type: SecretType): SecretV2 {
         tags: [],
 
         value: '',
+      }
+    case 'password':
+      return {
+        id:   crypto.randomUUID(),
+        type: 'password',
+
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        
+        name: '',
+        tags: [],
+
+        user:     '',
+        password: '',
       }
     default:
       throw new Error(`unknown secret type. \`${type}\``)
@@ -197,6 +225,12 @@ export function isCollection(value: Collection): boolean {
       case 'token':
         if (version < 2)                   return false
         if (typeof sec.value !== 'string') return false
+
+        return true
+      case 'password':
+        if (version < 2)                      return false
+        if (typeof sec.user     !== 'string') return false
+        if (typeof sec.password !== 'string') return false
 
         return true
     }
