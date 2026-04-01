@@ -1,6 +1,6 @@
 /// external dependencies.
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 /// internal dependencies.
 
@@ -36,15 +36,10 @@ export default function Autocomplete({
     return options.filter(o => o.toLowerCase().includes(q))
   }, [options, value])
 
-  useEffect(() => {
-    setSelectedIndex(prev => {
-      if (prev == null) return null
-
-      if (prev >= filteredOptions.length) return null
-
-      return prev
-    })
-  }, [filteredOptions, selectedIndex])
+  const activeIndex =
+    selectedIndex != null && selectedIndex < filteredOptions.length
+      ? selectedIndex
+      : null
 
   return <WrappedField label={label}>
     <div className='relative'>
@@ -68,14 +63,14 @@ export default function Autocomplete({
           }
 
           if (event.key === 'Enter') {
-            if (selectedIndex != null) {
+            if (activeIndex != null) {
               event.preventDefault()
 
               setIsOpen(false)
               setSelectedIndex(null)
 
-              onChange(filteredOptions[selectedIndex])
-              onSelect(filteredOptions[selectedIndex])
+              onChange(filteredOptions[activeIndex])
+              onSelect(filteredOptions[activeIndex])
             } else {
               onSelect(value)
             }
@@ -88,17 +83,17 @@ export default function Autocomplete({
 
             setIsOpen(true)
 
-            if (selectedIndex == null) {
+            if (activeIndex == null) {
               if (filteredOptions.length > 0) {
                 setSelectedIndex(filteredOptions.length - 1)
               } else {
                 setSelectedIndex(null)
               }
             } else {
-              if (selectedIndex == 0) {
+              if (activeIndex == 0) {
                 setSelectedIndex(null)
               } else {
-                setSelectedIndex(selectedIndex - 1)
+                setSelectedIndex(activeIndex - 1)
               }
             }
 
@@ -110,13 +105,13 @@ export default function Autocomplete({
 
             setIsOpen(true)
 
-            if (selectedIndex == null) {
+            if (activeIndex == null) {
               setSelectedIndex(filteredOptions.length > 0 ? 0 : null)
             } else {
-              if (selectedIndex == filteredOptions.length - 1) {
+              if (activeIndex == filteredOptions.length - 1) {
                 setSelectedIndex(null)
               } else {
-                setSelectedIndex(selectedIndex + 1)
+                setSelectedIndex(activeIndex + 1)
               }
             }
 
@@ -128,7 +123,7 @@ export default function Autocomplete({
       {isOpen && <div className='absolute top-full left-0 right-0 z-10 flex flex-col border-l-2 border-r-2 border-b-2 border-[var(--foreground-color)] outline-l-2 outline-r-2 outline-b-2 outline-[var(--background-color)] bg-[var(--background-color)] shadow-md shadow-[var(--background-color)]'>
         {filteredOptions.map((option, index) => (
           <div
-            className={`cursor-pointer hover:bg-[var(--background-color-2)] p-1 ${selectedIndex == index ? 'bg-[var(--background-color-2)]' : ''}`}
+            className={`cursor-pointer hover:bg-[var(--background-color-2)] p-1 ${activeIndex == index ? 'bg-[var(--background-color-2)]' : ''}`}
             key      ={option}
 
             onMouseDown={event => {

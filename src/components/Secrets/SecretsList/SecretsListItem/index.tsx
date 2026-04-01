@@ -11,6 +11,7 @@ import type { SecretV2 } from '@/types/Collection'
 // components.
 
 import Header                 from './Header'
+import SecretPasswordDetails  from './SecretPasswordDetails'
 import SecretPlainTextDetails from './SecretPlainTextDetails'
 import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
 import SecretTokenDetails     from './SecretTokenDetails'
@@ -60,6 +61,7 @@ export default function SecretsListItem({
         <div className='text-xs text-[var(--foreground-color-2)]'>updated {new Date(secret.updatedAt).toLocaleString()}.</div>
       </div>
 
+      {secret.type === 'password'   && <SecretPasswordDetails  secret={secret} />}
       {secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret} />}
       {secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret} />}
       {secret.type === 'token'      && <SecretTokenDetails     secret={secret} />}

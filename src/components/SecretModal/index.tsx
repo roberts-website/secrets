@@ -20,6 +20,7 @@ import {
 
 // components.
 
+import SecretPasswordDetails  from './SecretPasswordDetails'
 import SecretPlainTextDetails from './SecretPlainTextDetails'
 import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
 import SecretTokenDetails     from './SecretTokenDetails'
@@ -117,6 +118,14 @@ export default function SecretModal({
       />}
 
       {internalSecret.type === 'token' && <SecretTokenDetails
+        secret   ={internalSecret}
+        setSecret={setInternalSecret}
+        setValid ={setValid}
+
+        onChange={() => setUnsavedChanges(true)}
+      />}
+
+      {internalSecret.type === 'password' && <SecretPasswordDetails
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
