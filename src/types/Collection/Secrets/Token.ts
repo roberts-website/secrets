@@ -23,4 +23,17 @@ export default {
   type:  'token',
   label: 'token.',
   icon:  faCircle,
+
+  new: (): SecretTokenV2 => ({
+    id:   crypto.randomUUID(),
+    type: 'token',
+
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+
+    name: '',
+    tags: [],
+
+    value: '',
+  }),
 }

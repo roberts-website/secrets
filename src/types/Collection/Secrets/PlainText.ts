@@ -29,4 +29,17 @@ export default {
   type:  'plain-text',
   label: 'plain text.',
   icon:  faAlignLeft,
+
+  new: (): SecretPlainTextV2 => ({
+    id:   crypto.randomUUID(),
+    type: 'plain-text',
+
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+
+    name: '',
+    tags: [],
+
+    value: '',
+  }),
 }

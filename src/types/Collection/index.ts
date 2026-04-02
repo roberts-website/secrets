@@ -61,61 +61,17 @@ export type Collection = CollectionV1 | CollectionV2
 export function newSecret(type: SecretType): SecretV2 {
   switch (type) {
     case 'plain-text':
-      return {
-        id:   crypto.randomUUID(),
-        type: 'plain-text',
-
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-
-        name: '',
-        tags: [],
-
-        value: '',
-      }
+      return PlainText.new()
     case 'ssh-key':
-      return {
-        id:   crypto.randomUUID(),
-        type: 'ssh-key',
-
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-
-        name: '',
-        tags: [],
-
-        public:  '',
-        private: '',
-      }
+      return SSHKey.new()
     case 'token':
-      return {
-        id:   crypto.randomUUID(),
-        type: 'token',
-
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-
-        name: '',
-        tags: [],
-
-        value: '',
-      }
+      return Token.new()
     case 'password':
-      return {
-        id:   crypto.randomUUID(),
-        type: 'password',
-
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-        
-        name: '',
-        tags: [],
-
-        user:     '',
-        password: '',
-      }
-    default:
-      throw new Error(`unknown secret type. \`${type}\``)
+      return Password.new()
+    default: {
+      const _exhaustive: never = type
+      throw new Error(`unknown secret type. \`${_exhaustive}\``)
+    }
   }
 }
 

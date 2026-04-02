@@ -31,4 +31,18 @@ export default {
   type:  'ssh-key',
   label: 'ssh key.',
   icon:  faKey,
+
+  new: (): SecretSSHKeyV2 => ({
+    id:   crypto.randomUUID(),
+    type: 'ssh-key',
+
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+
+    name: '',
+    tags: [],
+
+    public:  '',
+    private: '',
+  }),
 }
