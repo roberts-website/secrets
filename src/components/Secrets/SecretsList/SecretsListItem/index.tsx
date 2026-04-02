@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 // types.
 
-import type { SecretV2 } from '@/types/Collection/index'
+import type { SecretV2 } from '@/types/Collection/Secrets/V2'
 
 // components.
 
@@ -49,7 +49,7 @@ export default function SecretsListItem({
 
     {isExpanded && <div className='border-1 border-[var(--foreground-color-2)] rounded-md p-3 my-1 flex flex-col gap-2'>
       {secret.tags.length > 0 && <div className='flex flex-row gap-1 flex-wrap'>
-        {secret.tags.map(tag => (
+        {secret.tags.map((tag: string) => (
           <span key={tag} className='text-xs border-1 border-[#808080] rounded-md px-2 py-1'>
             {tag}
           </span>

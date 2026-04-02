@@ -7,7 +7,7 @@ import { useState } from 'react'
 
 // types.
 
-import type { SecretV2 } from '@/types/Collection/index'
+import type { SecretV2 } from '@/types/Collection/Secrets/V2'
 
 // contexts.
 

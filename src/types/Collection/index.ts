@@ -1,57 +1,44 @@
-/// external dependencies.
-
-import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
-
-import {
-  faAlignLeft,
-  faCircle,
-  faKey,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons'
-
 /// internal dependencies.
 
 // types.
 
-import type { SecretTokenV2    } from '@/types/Collection/Secrets/Token'
-import type { SecretPasswordV2 } from '@/types/Collection/Secrets/Password'
+import type { SecretV1 } from './Secrets/V1'
+import type { SecretV2 } from './Secrets/V2'
 
-import type {
-  SecretPlainTextV1,
-  SecretPlainTextV2,
-} from '@/types/Collection/Secrets/PlainText'
+import Password, {
+  type SecretPasswordType,
+} from './Secrets/Password'
 
-import type {
-  SecretSSHKeyV1,
-  SecretSSHKeyV2,
-} from '@/types/Collection/Secrets/SSHKey'
+import PlainText, {
+  type SecretPlainTextType,
+} from './Secrets/PlainText'
+
+import SSHKey, {
+  type SecretSSHKeyType,
+} from './Secrets/SSHKey'
+
+import Token, {
+  type SecretTokenType,
+} from './Secrets/Token'
 
 /// types.
 
-export type SecretType = 'plain-text' | 'ssh-key' | 'token' | 'password'
+export type SecretType = SecretPlainTextType
+                       | SecretSSHKeyType
+                       | SecretTokenType
+                       | SecretPasswordType
 
-export const SecretTypeNames: Record<SecretType, string> = {
-  'plain-text': 'plain text.',
-  'ssh-key':    'ssh key.',
-  'token':      'token.',
-  'password':   'password.',
-}
-
-export const SecretTypeIcons: Record<SecretType, IconDefinition> = {
-  'plain-text': faAlignLeft,
-  'ssh-key':    faKey,
-  'token':      faCircle,
-  'password':   faUser,
-}
-
-
-export type SecretV1 = SecretPlainTextV1
-                     | SecretSSHKeyV1
-
-export type SecretV2 = SecretPasswordV2
-                     | SecretPlainTextV2
-                     | SecretSSHKeyV2
-                     | SecretTokenV2
+export const SecretTypes = Object.fromEntries(
+  [
+    Password,
+    PlainText,
+    SSHKey,
+    Token,
+  ].map(secretType => ([
+    secretType.type,
+    secretType,
+  ]))
+)
                      
 export type CollectionBase = {
   version: number

@@ -7,14 +7,12 @@ import { useState     } from 'react'
 
 // types.
 
-import type {
-  SecretType,
-  SecretV2,
-} from '@/types/Collection/index'
+
+import { type SecretV2 } from '@/types/Collection/Secrets/V2'
 
 import {
-  SecretTypeIcons,
-  SecretTypeNames,
+  type SecretType,
+  SecretTypes,
   newSecret,
 } from '@/types/Collection/index'
 
@@ -68,18 +66,28 @@ export default function SecretModal({
     <div className='flex flex-col gap-4 w-96'>
       <Select
         disabled={!isNew}
-        icon    ={SecretTypeIcons[internalSecret.type]}
+        icon    ={SecretTypes[internalSecret.type].icon}
         label   ='type.'
-        options ={Object.entries(SecretTypeNames).map(([type, name]) => ({ label: name, value: type }))}
-        value   ={internalSecret.type}
+        value   ={internalSecret.type as SecretType}
 
-        onChange={value => {
+        options={
+          Object
+            .entries(SecretTypes)
+            .map(
+              ([secretType, secretTypeData]) => ({
+                label: secretTypeData.label,
+                value: secretType,
+              })
+          )
+        }
+
+        onChange={type => {
           setInternalSecret({
-            ...newSecret(value as SecretType),
+            ...newSecret(type as SecretType),
             name: internalSecret.name,
             tags: internalSecret.tags,
           })
-
+          
           setUnsavedChanges(true)
         }}
       />

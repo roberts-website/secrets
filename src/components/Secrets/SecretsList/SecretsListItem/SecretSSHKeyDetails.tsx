@@ -2,7 +2,7 @@
 
 // types.
 
-import type { SecretSSHKeyV1 } from '@/types/Collection/index'
+import type { SecretSSHKeyV2 } from '@/types/Collection/Secrets/SSHKey'
 
 // components.
 
@@ -13,7 +13,7 @@ import SecretValue from './SecretValue'
 export default function SecretPlainTextDetails({
   secret,
 }: {
-  secret: SecretSSHKeyV1
+  secret: SecretSSHKeyV2
 }) {
   return <>
     <SecretValue

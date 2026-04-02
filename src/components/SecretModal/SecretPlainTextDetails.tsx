@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 // types.
 
-import type { SecretPlainTextV2 } from '@/types/Collection/index'
+import type { SecretPlainTextV2 } from '@/types/Collection/Secrets/PlainText'
 
 // components.
 

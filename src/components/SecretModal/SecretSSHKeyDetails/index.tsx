@@ -9,7 +9,7 @@ import {
 
 // types.
 
-import type { SecretSSHKeyV2 } from '@/types/Collection/index'
+import type { SecretSSHKeyV2 } from '@/types/Collection/Secrets/SSHKey'
 
 // components.
 
