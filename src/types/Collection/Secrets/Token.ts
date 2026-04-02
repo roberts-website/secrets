@@ -36,4 +36,9 @@ export default {
 
     value: '',
   }),
+
+  isValid: (sec: Record<string, unknown>, version: number) => {
+    return version >= 2
+        && typeof sec.value === 'string'
+  },
 }

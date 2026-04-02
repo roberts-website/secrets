@@ -45,4 +45,10 @@ export default {
     public:  '',
     private: '',
   }),
+
+  isValid: (sec: Record<string, unknown>, version: number) => {
+    return version >= 1
+        && typeof sec.public === 'string'
+        && typeof sec.private === 'string'
+  },
 }

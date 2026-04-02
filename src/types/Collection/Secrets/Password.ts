@@ -38,4 +38,10 @@ export default {
     user:     '',
     password: '',
   }),
+
+  isValid: (sec: Record<string, unknown>, version: number) => {
+    return version >= 2
+        && typeof sec.user     === 'string'
+        && typeof sec.password === 'string'
+  },
 }

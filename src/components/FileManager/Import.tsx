@@ -12,13 +12,10 @@ import {
 
 // types.
 
-import type {
-  Collection,
-  CollectionV2,
-} from '@/types/Collection/index'
+import type { CollectionV2 } from '@/types/Collection/index'
 
 import {
-  isCollection,
+  isValid,
   migrateCollection,
 } from '@/types/Collection/index'
 
@@ -38,9 +35,9 @@ import Waiting    from '@/components/Waiting'
 async function loadFromFile(file: File): Promise<CollectionV2> {
   const text = await file.text()
 
-  const data = JSON.parse(text) as Collection
+  const data = JSON.parse(text)
 
-  if (!isCollection(data))
+  if (!isValid(data))
     throw new Error('Invalid file format')
 
   return migrateCollection(data)

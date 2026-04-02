@@ -78,7 +78,7 @@ export function migrateCollection(collection: Collection): CollectionV2 {
   }
 }
 
-export function isCollection(value: Collection): boolean {
+export function isValid(value: unknown): value is Collection {
   if (!value || typeof value !== 'object')
     return false
 
@@ -107,29 +107,12 @@ export function isCollection(value: Collection): boolean {
       if (typeof sec.updatedAt !== 'number') return false
     }
 
-    switch (sec.type) {
-      case 'plain-text':
-        if (typeof sec.value !== 'string') return false
+    if (typeof sec.type !== 'string') return false
 
-        return true
-      case 'ssh-key':
-        if (typeof sec.public  !== 'string') return false
-        if (typeof sec.private !== 'string') return false
+    const secretType = sec.type as SecretType
 
-        return true
-      case 'token':
-        if (version < 2)                   return false
-        if (typeof sec.value !== 'string') return false
+    if (!(secretType in SecretTypes)) return false
 
-        return true
-      case 'password':
-        if (version < 2)                      return false
-        if (typeof sec.user     !== 'string') return false
-        if (typeof sec.password !== 'string') return false
-
-        return true
-    }
-
-    return false
+    return SecretTypes[secretType].isValid(sec, version)
   })
 }
