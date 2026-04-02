@@ -2,15 +2,15 @@
 
 // types.
 
-import type { SecretPasswordV2 } from '@/types/Collection/Secrets/Password'
+import type { SecretPasswordV2 } from './types'
 
 // components.
 
-import SecretValue from './SecretValue'
+import SecretValue from '@/components/Secrets/SecretsList/SecretsListItem/SecretValue'
 
 /// component.
 
-export default function SecretPasswordDetails({
+export default function Detail({
   secret,
 }: {
   secret: SecretPasswordV2

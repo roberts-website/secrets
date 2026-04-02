@@ -1,9 +1,9 @@
 /// internal dependencies.
 
-import type { SecretPasswordV2  } from './Password'
-import type { SecretPlainTextV2 } from './PlainText'
-import type { SecretSSHKeyV2    } from './SSHKey'
-import type { SecretTokenV2     } from './Token'
+import type { SecretPasswordV2  } from './Password/types'
+import type { SecretPlainTextV2 } from './PlainText/types'
+import type { SecretSSHKeyV2    } from './SSHKey/types'
+import type { SecretTokenV2     } from './Token/types'
 
 import type { Tag } from '@/types/Tag'
 

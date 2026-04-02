@@ -4,26 +4,16 @@ import { faKey } from '@fortawesome/free-solid-svg-icons'
 
 /// internal dependencies.
 
-// types.
+import Detail from './Detail'
+import Edit   from './Edit'
 
-import type { SecretBaseV1 } from '@/types/Collection/Secrets/V1'
-import type { SecretBaseV2 } from '@/types/Collection/Secrets/V2'
+import type { SecretSSHKeyV2 } from './types'
 
-/// types.
-
-export type SecretSSHKeyType = 'ssh-key'
-
-export type SecretSSHKeyV1 = SecretBaseV1 & {
-  type:    'ssh-key'
-  public:  string
-  private: string
-}
-
-export type SecretSSHKeyV2 = SecretBaseV2 & {
-  type:    'ssh-key'
-  public:  string
-  private: string
-}
+export type {
+  SecretSSHKeyType,
+  SecretSSHKeyV1,
+  SecretSSHKeyV2,
+} from './types'
 
 /// configuration.
 
@@ -31,6 +21,9 @@ export default {
   type:  'ssh-key',
   label: 'ssh key.',
   icon:  faKey,
+
+  Detail,
+  Edit,
 
   new: (): SecretSSHKeyV2 => ({
     id:   crypto.randomUUID(),

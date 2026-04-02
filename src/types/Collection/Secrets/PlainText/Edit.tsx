@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 // types.
 
-import type { SecretPlainTextV2 } from '@/types/Collection/Secrets/PlainText'
+import type { SecretPlainTextV2 } from './types'
 
 // components.
 
@@ -14,7 +14,7 @@ import TextArea from '@/components/Form/TextArea'
 
 /// component.
 
-export default function SecretPlainTextDetails({
+export default function Edit({
   secret,
 
   setSecret,
@@ -40,7 +40,7 @@ export default function SecretPlainTextDetails({
     label    ='value.'
     value    ={secret.value}
 
-    onChange={value =>{
+    onChange={value => {
       setSecret({ ...secret, value })
       onChange()
     }}

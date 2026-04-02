@@ -4,18 +4,12 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons'
 
 /// internal dependencies.
 
-// types.
+import Detail from './Detail'
+import Edit   from './Edit'
 
-import type { SecretBaseV2 } from '@/types/Collection/Secrets/V2'
+import type { SecretTokenV2 } from './types'
 
-/// types.
-
-export type SecretTokenType = 'token'
-
-export type SecretTokenV2 = SecretBaseV2 & {
-  type:  'token'
-  value: string
-}
+export type { SecretTokenType, SecretTokenV2 } from './types'
 
 /// configuration.
 
@@ -23,6 +17,9 @@ export default {
   type:  'token',
   label: 'token.',
   icon:  faCircle,
+
+  Detail,
+  Edit,
 
   new: (): SecretTokenV2 => ({
     id:   crypto.randomUUID(),

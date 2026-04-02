@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 // types.
 
-import type { SecretTokenV2 } from '@/types/Collection/Secrets/Token'
+import type { SecretTokenV2 } from './types'
 
 // components.
 
@@ -14,7 +14,7 @@ import TextInput from '@/components/Form/TextInput'
 
 /// component.
 
-export default function SecretTokenDetails({
+export default function Edit({
   secret,
 
   setSecret,
@@ -40,7 +40,7 @@ export default function SecretTokenDetails({
     label    ='value.'
     value    ={secret.value}
 
-    onChange={value =>{
+    onChange={value => {
       setSecret({ ...secret, value })
       onChange()
     }}

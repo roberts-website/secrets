@@ -8,13 +8,14 @@ import { useState } from 'react'
 
 import type { SecretV2 } from '@/types/Collection/Secrets/V2'
 
+import Password  from '@/types/Collection/Secrets/Password'
+import PlainText from '@/types/Collection/Secrets/PlainText'
+import SSHKey    from '@/types/Collection/Secrets/SSHKey'
+import Token     from '@/types/Collection/Secrets/Token'
+
 // components.
 
-import Header                 from './Header'
-import SecretPasswordDetails  from './SecretPasswordDetails'
-import SecretPlainTextDetails from './SecretPlainTextDetails'
-import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
-import SecretTokenDetails     from './SecretTokenDetails'
+import Header from './Header'
 
 /// component.
 
@@ -34,7 +35,7 @@ export default function SecretsListItem({
   onDelete:   () => void
 }) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
-  
+
   return <div className='flex flex-col gap-2'>
     <Header
       isExpanded={isExpanded}
@@ -61,10 +62,10 @@ export default function SecretsListItem({
         <div className='text-xs text-[var(--foreground-color-2)]'>updated {new Date(secret.updatedAt).toLocaleString()}.</div>
       </div>
 
-      {secret.type === 'password'   && <SecretPasswordDetails  secret={secret} />}
-      {secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret} />}
-      {secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret} />}
-      {secret.type === 'token'      && <SecretTokenDetails     secret={secret} />}
+      {secret.type === 'password'   && <Password.Detail  secret={secret} />}
+      {secret.type === 'plain-text' && <PlainText.Detail secret={secret} />}
+      {secret.type === 'ssh-key'    && <SSHKey.Detail    secret={secret} />}
+      {secret.type === 'token'      && <Token.Detail     secret={secret} />}
     </div>}
   </div>
 }

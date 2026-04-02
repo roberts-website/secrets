@@ -17,13 +17,13 @@ import {
 
 import PlainText from '@/types/Collection/Secrets/PlainText'
 
+import Password from '@/types/Collection/Secrets/Password'
+import SSHKey   from '@/types/Collection/Secrets/SSHKey'
+import Token    from '@/types/Collection/Secrets/Token'
+
 // components.
 
-import SecretPasswordDetails  from './SecretPasswordDetails'
-import SecretPlainTextDetails from './SecretPlainTextDetails'
-import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
-import SecretTokenDetails     from './SecretTokenDetails'
-import Tags                   from './Tags'
+import Tags from './Tags'
 
 import Button    from '@/components/Form/Button'
 import Select    from '@/components/Form/Select'
@@ -52,7 +52,7 @@ export default function SecretModal({
 
   return <Modal
     title={isNew ? 'new secret.' : 'edit secret.'}
-    
+
     onClose={() => {
       if (!unsavedChanges) {
         onClose()
@@ -79,7 +79,7 @@ export default function SecretModal({
                 label: secretTypeData.label,
                 value: secretType,
               })
-          )
+            )
         }
 
         onChange={type => {
@@ -96,7 +96,7 @@ export default function SecretModal({
       <TextInput
         label='name.'
         value={internalSecret.name}
-        
+
         onChange={value => {
           setInternalSecret({ ...internalSecret, name: value })
           setUnsavedChanges(true)
@@ -110,7 +110,7 @@ export default function SecretModal({
         onChange={() => setUnsavedChanges(true)}
       />
 
-      {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
+      {internalSecret.type === 'plain-text' && <PlainText.Edit
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
@@ -118,7 +118,7 @@ export default function SecretModal({
         onChange={() => setUnsavedChanges(true)}
       />}
 
-      {internalSecret.type === 'ssh-key' && <SecretSSHKeyDetails
+      {internalSecret.type === 'ssh-key' && <SSHKey.Edit
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
@@ -126,7 +126,7 @@ export default function SecretModal({
         onChange={() => setUnsavedChanges(true)}
       />}
 
-      {internalSecret.type === 'token' && <SecretTokenDetails
+      {internalSecret.type === 'token' && <Token.Edit
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
@@ -134,14 +134,14 @@ export default function SecretModal({
         onChange={() => setUnsavedChanges(true)}
       />}
 
-      {internalSecret.type === 'password' && <SecretPasswordDetails
+      {internalSecret.type === 'password' && <Password.Edit
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
 
         onChange={() => setUnsavedChanges(true)}
       />}
-    
+
       <Button
         icon    ={faFloppyDisk}
         disabled={!internalSecret.name || !valid || !unsavedChanges}

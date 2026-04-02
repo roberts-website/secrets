@@ -4,19 +4,12 @@ import { faAsterisk } from '@fortawesome/free-solid-svg-icons'
 
 /// internal dependencies.
 
-// types.
+import Detail from './Detail'
+import Edit   from './Edit'
 
-import type { SecretBaseV2 } from '@/types/Collection/Secrets/V2'
+import type { SecretPasswordV2 } from './types'
 
-/// types.
-
-export type SecretPasswordType = 'password'
-
-export type SecretPasswordV2 = SecretBaseV2 & {
-  type:     'password'
-  user:     string
-  password: string
-}
+export type { SecretPasswordType, SecretPasswordV2 } from './types'
 
 /// configuration.
 
@@ -24,6 +17,9 @@ export default {
   type:  'password',
   label: 'password.',
   icon:  faAsterisk,
+
+  Detail,
+  Edit,
 
   new: (): SecretPasswordV2 => ({
     id:   crypto.randomUUID(),

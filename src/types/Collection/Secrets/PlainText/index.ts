@@ -4,24 +4,16 @@ import { faAlignLeft } from '@fortawesome/free-solid-svg-icons'
 
 /// internal dependencies.
 
-// types.
+import Detail from './Detail'
+import Edit   from './Edit'
 
-import type { SecretBaseV1 } from './V1'
-import type { SecretBaseV2 } from './V2'
+import type { SecretPlainTextV2 } from './types'
 
-/// types.
-
-export type SecretPlainTextType = 'plain-text'
-
-export type SecretPlainTextV1 = SecretBaseV1 & {
-  type:  'plain-text'
-  value: string
-}
-
-export type SecretPlainTextV2 = SecretBaseV2 & {
-  type:  'plain-text'
-  value: string
-}
+export type {
+  SecretPlainTextType,
+  SecretPlainTextV1,
+  SecretPlainTextV2,
+} from './types'
 
 /// configuration.
 
@@ -29,6 +21,9 @@ export default {
   type:  'plain-text',
   label: 'plain text.',
   icon:  faAlignLeft,
+
+  Detail,
+  Edit,
 
   new: (): SecretPlainTextV2 => ({
     id:   crypto.randomUUID(),
@@ -45,6 +40,6 @@ export default {
 
   isValid: (sec: Record<string, unknown>, version: number) => {
     return version >= 1
-        && typeof sec.id === 'string'
+        && typeof sec.value === 'string'
   },
 }
