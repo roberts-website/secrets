@@ -13,8 +13,9 @@ import { type SecretV2 } from '@/types/Collection/Secrets/V2'
 import {
   type SecretType,
   SecretTypes,
-  newSecret,
 } from '@/types/Collection/index'
+
+import PlainText from '@/types/Collection/Secrets/PlainText'
 
 // components.
 
@@ -43,7 +44,7 @@ export default function SecretModal({
   onClose:  () => void
   onUpdate: (secret: SecretV2) => void
 }) {
-  const [internalSecret, setInternalSecret] = useState<SecretV2>(secret ?? newSecret('plain-text'))
+  const [internalSecret, setInternalSecret] = useState<SecretV2>(secret ?? PlainText.new())
   const [valid,          setValid         ] = useState<boolean >(false)
   const [unsavedChanges, setUnsavedChanges] = useState<boolean >(false)
 
@@ -83,11 +84,11 @@ export default function SecretModal({
 
         onChange={type => {
           setInternalSecret({
-            ...newSecret(type as SecretType),
+            ...SecretTypes[type as SecretType].new(),
             name: internalSecret.name,
             tags: internalSecret.tags,
           })
-          
+
           setUnsavedChanges(true)
         }}
       />

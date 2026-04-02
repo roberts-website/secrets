@@ -28,17 +28,18 @@ export type SecretType = SecretPlainTextType
                        | SecretTokenType
                        | SecretPasswordType
 
+const secretTypeModules = [
+  Password,
+  PlainText,
+  SSHKey,
+  Token,
+] as const
+
+type SecretTypeModule = (typeof secretTypeModules)[number]
+
 export const SecretTypes = Object.fromEntries(
-  [
-    Password,
-    PlainText,
-    SSHKey,
-    Token,
-  ].map(secretType => ([
-    secretType.type,
-    secretType,
-  ]))
-)
+  secretTypeModules.map(secretType => [secretType.type, secretType])
+) as Record<SecretType, SecretTypeModule>
                      
 export type CollectionBase = {
   version: number
@@ -57,23 +58,6 @@ export type CollectionV2 = CollectionBase & {
 }
 
 export type Collection = CollectionV1 | CollectionV2
-
-export function newSecret(type: SecretType): SecretV2 {
-  switch (type) {
-    case 'plain-text':
-      return PlainText.new()
-    case 'ssh-key':
-      return SSHKey.new()
-    case 'token':
-      return Token.new()
-    case 'password':
-      return Password.new()
-    default: {
-      const _exhaustive: never = type
-      throw new Error(`unknown secret type. \`${_exhaustive}\``)
-    }
-  }
-}
 
 export function migrateCollection(collection: Collection): CollectionV2 {
   switch (collection.version) {
