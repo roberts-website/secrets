@@ -12,18 +12,15 @@ import { type SecretV2 } from '@/types/Collection/Secrets/V2'
 
 import {
   type SecretType,
+  PlainText,
   SecretTypes,
-} from '@/types/Collection/index'
-
-import PlainText from '@/types/Collection/Secrets/PlainText'
-
-import Password from '@/types/Collection/Secrets/Password'
-import SSHKey   from '@/types/Collection/Secrets/SSHKey'
-import Token    from '@/types/Collection/Secrets/Token'
+} from '@/types/Collection/Secrets'
 
 // components.
 
 import Tags from './Tags'
+
+import { SecretPayloadEdit } from '@/components/Secrets/SecretPayloadViews'
 
 import Button    from '@/components/Form/Button'
 import Select    from '@/components/Form/Select'
@@ -59,7 +56,7 @@ export default function SecretModal({
         return
       }
 
-      if (confirm('You have unsaved changes. Are you sure you want to close?')) {
+      if (confirm('you have unsaved changes. are you sure you want to close')) {
         onClose()
       }
     }}
@@ -110,37 +107,13 @@ export default function SecretModal({
         onChange={() => setUnsavedChanges(true)}
       />
 
-      {internalSecret.type === 'plain-text' && <PlainText.Edit
+      <SecretPayloadEdit
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
 
         onChange={() => setUnsavedChanges(true)}
-      />}
-
-      {internalSecret.type === 'ssh-key' && <SSHKey.Edit
-        secret   ={internalSecret}
-        setSecret={setInternalSecret}
-        setValid ={setValid}
-
-        onChange={() => setUnsavedChanges(true)}
-      />}
-
-      {internalSecret.type === 'token' && <Token.Edit
-        secret   ={internalSecret}
-        setSecret={setInternalSecret}
-        setValid ={setValid}
-
-        onChange={() => setUnsavedChanges(true)}
-      />}
-
-      {internalSecret.type === 'password' && <Password.Edit
-        secret   ={internalSecret}
-        setSecret={setInternalSecret}
-        setValid ={setValid}
-
-        onChange={() => setUnsavedChanges(true)}
-      />}
+      />
 
       <Button
         icon    ={faFloppyDisk}

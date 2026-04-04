@@ -5,41 +5,12 @@
 import type { SecretV1 } from './Secrets/V1'
 import type { SecretV2 } from './Secrets/V2'
 
-import Password, {
-  type SecretPasswordType,
-} from './Secrets/Password'
+import {
+  SecretTypes,
+  type SecretType,
+} from './Secrets'
 
-import PlainText, {
-  type SecretPlainTextType,
-} from './Secrets/PlainText'
-
-import SSHKey, {
-  type SecretSSHKeyType,
-} from './Secrets/SSHKey'
-
-import Token, {
-  type SecretTokenType,
-} from './Secrets/Token'
-
-/// types.
-
-export type SecretType = SecretPlainTextType
-                       | SecretSSHKeyType
-                       | SecretTokenType
-                       | SecretPasswordType
-
-const secretTypeModules = [
-  Password,
-  PlainText,
-  SSHKey,
-  Token,
-] as const
-
-type SecretTypeModule = (typeof secretTypeModules)[number]
-
-export const SecretTypes = Object.fromEntries(
-  secretTypeModules.map(secretType => [secretType.type, secretType])
-) as Record<SecretType, SecretTypeModule>
+export { SecretTypes, type SecretType }
                      
 export type CollectionBase = {
   version: number

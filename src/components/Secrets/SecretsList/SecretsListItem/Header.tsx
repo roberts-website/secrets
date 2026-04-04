@@ -15,7 +15,7 @@ import {
 
 import type { SecretV2 } from '@/types/Collection/Secrets/V2'
 
-import { SecretTypes } from '@/types/Collection'
+import { SecretTypes } from '@/types/Collection/Secrets'
 
 // components.
 
