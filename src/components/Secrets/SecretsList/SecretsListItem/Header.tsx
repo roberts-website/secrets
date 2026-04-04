@@ -13,9 +13,9 @@ import {
 
 // types.
 
-import type { SecretV2 } from '@/types/Collection'
+import type { SecretV2 } from '@/types/Collection/Secrets/V2'
 
-import { SecretTypeIcons } from '@/types/Collection'
+import { SecretTypes } from '@/types/Collection/Secrets'
 
 // components.
 
@@ -49,7 +49,7 @@ export default function Header({
         onClick  ={() => setIsExpanded(!isExpanded)}
       >
         <FontAwesomeIcon icon={isExpanded ? faAngleUp : faAngleDown} />
-        <FontAwesomeIcon icon={SecretTypeIcons[secret.type]} />        
+        <FontAwesomeIcon icon={SecretTypes[secret.type].icon} />        
         <div className='flex-1'>
           {secret.name}
         </div>

@@ -6,24 +6,24 @@ import { useEffect } from 'react'
 
 // types.
 
-import type { SecretPlainTextV2 } from '@/types/Collection'
+import type { SecretTokenV2 } from './types'
 
 // components.
 
-import TextArea from '@/components/Form/TextArea'
+import TextInput from '@/components/Form/TextInput'
 
 /// component.
 
-export default function SecretPlainTextDetails({
+export default function Edit({
   secret,
 
   setSecret,
   setValid,
   onChange,
 }: {
-  secret: SecretPlainTextV2
+  secret: SecretTokenV2
 
-  setSecret: (secret: SecretPlainTextV2) => void
+  setSecret: (secret: SecretTokenV2) => void
   setValid:  (valid: boolean) => void
   onChange:  () => void
 }) {
@@ -35,12 +35,12 @@ export default function SecretPlainTextDetails({
     ]
   )
 
-  return <TextArea
+  return <TextInput
     className='font-mono'
     label    ='value.'
     value    ={secret.value}
 
-    onChange={value =>{
+    onChange={value => {
       setSecret({ ...secret, value })
       onChange()
     }}

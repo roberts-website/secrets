@@ -7,24 +7,20 @@ import { useState     } from 'react'
 
 // types.
 
-import type {
-  SecretType,
-  SecretV2,
-} from '@/types/Collection'
+
+import { type SecretV2 } from '@/types/Collection/Secrets/V2'
 
 import {
-  SecretTypeIcons,
-  SecretTypeNames,
-  newSecret,
-} from '@/types/Collection'
+  type SecretType,
+  PlainText,
+  SecretTypes,
+} from '@/types/Collection/Secrets'
 
 // components.
 
-import SecretPasswordDetails  from './SecretPasswordDetails'
-import SecretPlainTextDetails from './SecretPlainTextDetails'
-import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
-import SecretTokenDetails     from './SecretTokenDetails'
-import Tags                   from './Tags'
+import Tags from './Tags'
+
+import { SecretPayloadEdit } from '@/components/Secrets/SecretPayloadViews'
 
 import Button    from '@/components/Form/Button'
 import Select    from '@/components/Form/Select'
@@ -45,7 +41,7 @@ export default function SecretModal({
   onClose:  () => void
   onUpdate: (secret: SecretV2) => void
 }) {
-  const [internalSecret, setInternalSecret] = useState<SecretV2>(secret ?? newSecret('plain-text'))
+  const [internalSecret, setInternalSecret] = useState<SecretV2>(secret ?? PlainText.new())
   const [valid,          setValid         ] = useState<boolean >(false)
   const [unsavedChanges, setUnsavedChanges] = useState<boolean >(false)
 
@@ -53,14 +49,14 @@ export default function SecretModal({
 
   return <Modal
     title={isNew ? 'new secret.' : 'edit secret.'}
-    
+
     onClose={() => {
       if (!unsavedChanges) {
         onClose()
         return
       }
 
-      if (confirm('You have unsaved changes. Are you sure you want to close?')) {
+      if (confirm('you have unsaved changes. are you sure you want to close')) {
         onClose()
       }
     }}
@@ -68,14 +64,24 @@ export default function SecretModal({
     <div className='flex flex-col gap-4 w-96'>
       <Select
         disabled={!isNew}
-        icon    ={SecretTypeIcons[internalSecret.type]}
+        icon    ={SecretTypes[internalSecret.type].icon}
         label   ='type.'
-        options ={Object.entries(SecretTypeNames).map(([type, name]) => ({ label: name, value: type }))}
-        value   ={internalSecret.type}
+        value   ={internalSecret.type as SecretType}
 
-        onChange={value => {
+        options={
+          Object
+            .entries(SecretTypes)
+            .map(
+              ([secretType, secretTypeData]) => ({
+                label: secretTypeData.label,
+                value: secretType,
+              })
+            )
+        }
+
+        onChange={type => {
           setInternalSecret({
-            ...newSecret(value as SecretType),
+            ...SecretTypes[type as SecretType].new(),
             name: internalSecret.name,
             tags: internalSecret.tags,
           })
@@ -87,7 +93,7 @@ export default function SecretModal({
       <TextInput
         label='name.'
         value={internalSecret.name}
-        
+
         onChange={value => {
           setInternalSecret({ ...internalSecret, name: value })
           setUnsavedChanges(true)
@@ -101,38 +107,14 @@ export default function SecretModal({
         onChange={() => setUnsavedChanges(true)}
       />
 
-      {internalSecret.type === 'plain-text' && <SecretPlainTextDetails
+      <SecretPayloadEdit
         secret   ={internalSecret}
         setSecret={setInternalSecret}
         setValid ={setValid}
 
         onChange={() => setUnsavedChanges(true)}
-      />}
+      />
 
-      {internalSecret.type === 'ssh-key' && <SecretSSHKeyDetails
-        secret   ={internalSecret}
-        setSecret={setInternalSecret}
-        setValid ={setValid}
-
-        onChange={() => setUnsavedChanges(true)}
-      />}
-
-      {internalSecret.type === 'token' && <SecretTokenDetails
-        secret   ={internalSecret}
-        setSecret={setInternalSecret}
-        setValid ={setValid}
-
-        onChange={() => setUnsavedChanges(true)}
-      />}
-
-      {internalSecret.type === 'password' && <SecretPasswordDetails
-        secret   ={internalSecret}
-        setSecret={setInternalSecret}
-        setValid ={setValid}
-
-        onChange={() => setUnsavedChanges(true)}
-      />}
-    
       <Button
         icon    ={faFloppyDisk}
         disabled={!internalSecret.name || !valid || !unsavedChanges}

@@ -6,15 +6,13 @@ import { useState } from 'react'
 
 // types.
 
-import type { SecretV2 } from '@/types/Collection'
+import type { SecretV2 } from '@/types/Collection/Secrets/V2'
+
+import { SecretPayloadDetail } from '@/components/Secrets/SecretPayloadViews'
 
 // components.
 
-import Header                 from './Header'
-import SecretPasswordDetails  from './SecretPasswordDetails'
-import SecretPlainTextDetails from './SecretPlainTextDetails'
-import SecretSSHKeyDetails    from './SecretSSHKeyDetails'
-import SecretTokenDetails     from './SecretTokenDetails'
+import Header from './Header'
 
 /// component.
 
@@ -34,7 +32,7 @@ export default function SecretsListItem({
   onDelete:   () => void
 }) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
-  
+
   return <div className='flex flex-col gap-2'>
     <Header
       isExpanded={isExpanded}
@@ -49,7 +47,7 @@ export default function SecretsListItem({
 
     {isExpanded && <div className='border-1 border-[var(--foreground-color-2)] rounded-md p-3 my-1 flex flex-col gap-2'>
       {secret.tags.length > 0 && <div className='flex flex-row gap-1 flex-wrap'>
-        {secret.tags.map(tag => (
+        {secret.tags.map((tag: string) => (
           <span key={tag} className='text-xs border-1 border-[#808080] rounded-md px-2 py-1'>
             {tag}
           </span>
@@ -61,10 +59,7 @@ export default function SecretsListItem({
         <div className='text-xs text-[var(--foreground-color-2)]'>updated {new Date(secret.updatedAt).toLocaleString()}.</div>
       </div>
 
-      {secret.type === 'password'   && <SecretPasswordDetails  secret={secret} />}
-      {secret.type === 'plain-text' && <SecretPlainTextDetails secret={secret} />}
-      {secret.type === 'ssh-key'    && <SecretSSHKeyDetails    secret={secret} />}
-      {secret.type === 'token'      && <SecretTokenDetails     secret={secret} />}
+      <SecretPayloadDetail secret={secret} />
     </div>}
   </div>
 }

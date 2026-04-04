@@ -8,7 +8,8 @@ import { useState        } from 'react'
 
 // types.
 
-import type { SecretV2 } from '@/types/Collection'
+import type { SecretV2 } from '@/types/Collection/Secrets/V2'
+import type { Tag      } from '@/types/Tag'
 
 // contexts.
 
@@ -38,7 +39,7 @@ export default function Tags({
 
   return <WrappedField label='tags.'>
     <div className='flex flex-row flex-wrap gap-2'>
-      {secret.tags.map((tag: string) => {
+      {secret.tags.map((tag: Tag) => {
         return <span
           key      ={tag}
           className='text-sm text-[var(--background-color-2)] bg-[var(--foreground-color)] rounded-md pl-1 pr-2 py-1 flex flex-row gap-1 items-center'

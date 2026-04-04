@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 // types.
 
-import type { SecretPasswordV2 } from '@/types/Collection'
+import type { SecretPasswordV2 } from './types'
 
 // components.
 
@@ -14,7 +14,7 @@ import TextInput from '@/components/Form/TextInput'
 
 /// component.
 
-export default function SecretPasswordDetails({
+export default function Edit({
   secret,
 
   setSecret,
