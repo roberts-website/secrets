@@ -37,7 +37,7 @@ export default {
     variables: [],
   }),
 
-  isValid: (secret: SecretEnvironmentVariablesV2, version: number) => {
+  isValid: (secret: Record<string, unknown>, version: number) => {
     try {
       return version >= 2
           && Array.isArray(secret.variables)

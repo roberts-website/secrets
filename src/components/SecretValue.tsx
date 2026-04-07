@@ -19,9 +19,9 @@ export default function SecretValue({
   label  = undefined,
   value,
 }: {
-  inline: boolean
-  label?: string
-  value:  string
+  inline?: boolean
+  label?:  string
+  value:   string
 }) {
   const [visible, setVisible] = useState(false)
 

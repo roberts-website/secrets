@@ -53,37 +53,35 @@ export function isValid(value: unknown): value is Collection {
   if (!value || typeof value !== 'object')
     return false
 
-  const o = value as Record<string, unknown>
+  const collection = value as Record<string, unknown>
 
-  if (typeof o.version !== 'number'     ) return false
-  if (o.version != Math.floor(o.version)) return false
-  if (o.version < 1 || o.version > 2    ) return false
+  if (typeof collection.version !== 'number'     ) return false
+  if (collection.version != Math.floor(collection.version)) return false
+  if (collection.version < 1 || collection.version > 2    ) return false
 
-  const version = o.version
+  const version = collection.version
 
-  if (typeof o.title !== 'string') return false
-  if (!Array.isArray(o.secrets)  ) return false
+  if (typeof collection.title !== 'string') return false
+  if (!Array.isArray(collection.secrets)  ) return false
 
-  return o.secrets.every(s => {
-    const sec = s as Record<string, unknown>
+  return collection.secrets.every((secret: Record<string, unknown>) => {
+    if (!secret || typeof secret !== 'object') return false
 
-    if (!sec || typeof sec !== 'object') return false
-
-    if (typeof sec.id   !== 'string') return false
-    if (typeof sec.name !== 'string') return false
-    if (!Array.isArray(sec.tags)    ) return false
+    if (typeof secret.id   !== 'string') return false
+    if (typeof secret.name !== 'string') return false
+    if (!Array.isArray(secret.tags)    ) return false
 
     if (version >= 2) {
-      if (typeof sec.createdAt !== 'number') return false
-      if (typeof sec.updatedAt !== 'number') return false
+      if (typeof secret.createdAt !== 'number') return false
+      if (typeof secret.updatedAt !== 'number') return false
     }
 
-    if (typeof sec.type !== 'string') return false
+    if (typeof secret.type !== 'string') return false
 
-    const secretType = sec.type as SecretType
+    const secretType = secret.type as SecretType
 
     if (!(secretType in SecretTypes)) return false
 
-    return SecretTypes[secretType].isValid(sec, version)
+    return SecretTypes[secretType].isValid(secret, version)
   })
 }
