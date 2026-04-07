@@ -1,11 +1,18 @@
 /// internal dependencies.
 
-import Password  from './Password'
-import PlainText from './PlainText'
-import SSHKey    from './SSHKey'
-import Token     from './Token'
+import EnvironmentVariables from './EnvironmentVariables'
+import Password             from './Password'
+import PlainText            from './PlainText'
+import SSHKey               from './SSHKey'
+import Token                from './Token'
 
-export { Password, PlainText, SSHKey, Token }
+export {
+  EnvironmentVariables,
+  Password,
+  PlainText,
+  SSHKey,
+  Token,
+}
 
 export type { SecretPasswordType, SecretPasswordV2 } from './Password/types'
 
@@ -24,6 +31,7 @@ export type {
 export type { SecretTokenType, SecretTokenV2 } from './Token/types'
 
 export const secretTypeModules = [
+  EnvironmentVariables,
   Password,
   PlainText,
   SSHKey,
