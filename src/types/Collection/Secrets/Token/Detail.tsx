@@ -6,7 +6,7 @@ import type { SecretTokenV2 } from './types'
 
 // components.
 
-import SecretValue from '@/components/Secrets/SecretsList/SecretsListItem/SecretValue'
+import SecretValue from '@/components/SecretValue'
 
 /// component.
 

@@ -15,19 +15,19 @@ import Button from '@/components/Form/Button'
 /// component.
 
 export default function SecretValue({
-  label,
+  label = undefined,
   value,
 }: {
-  label: string
-  value: string
+  label?: string
+  value:  string
 }) {
   const [visible, setVisible] = useState(false)
 
   return <div className='w-full flex flex-col gap-2'>
     <div className='flex flex-row gap-2'>
-      <div className='flex-1'>
+      {label && <div className='flex-1'>
         {label}
-      </div>
+      </div>}
       <div className='flex flex-row gap-1'>
         <Button
           className='mini'

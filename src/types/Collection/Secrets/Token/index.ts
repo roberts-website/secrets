@@ -7,9 +7,12 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons'
 import Detail from './Detail'
 import Edit   from './Edit'
 
-import type { SecretTokenV2 } from './types'
+import { type SecretTokenV2 } from './types'
 
-export type { SecretTokenType, SecretTokenV2 } from './types'
+export {
+  type SecretTokenType,
+  type SecretTokenV2,
+} from './types'
 
 /// configuration.
 
