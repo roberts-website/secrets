@@ -18,14 +18,17 @@ export default function Detail({
   return <div className='flex flex-col gap-1'>
     {secret.variables.map(variable =>
       <div
-        className='flex flex-row gap-1'
+        className='flex flex-row gap-1 items-center'
         key      ={variable.key}
       >
-        <div className='flex-1'>
+        <div className='flex-1 font-mono'>
           {variable.key}
         </div>
-        <div className='flex-1'>
-          <SecretValue value={variable.value} />
+        <div className='flex-1 md:flex-3'>
+          <SecretValue
+            inline={true}
+            value ={variable.value}
+          />
         </div>
       </div>
     )}

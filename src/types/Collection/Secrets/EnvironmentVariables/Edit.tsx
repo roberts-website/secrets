@@ -83,11 +83,11 @@ export default function Edit({
   return <WrappedField label='variables.'>
     <div className='flex min-w-0 w-full flex-col gap-1'>
       {secret.variables.map((variable, variableIndex) =>
-        <div className='flex flex-col gap-1'>
-          <div
-            className='flex w-full min-w-0 flex-row gap-1 items-center'
-            key      ={variableIndex}
-          >
+        <div
+          className='flex flex-col gap-1'
+          key      ={variableIndex}
+        >
+          <div className='flex w-full min-w-0 flex-row gap-1 items-center'>
             <TextInput
               className='min-w-0 flex-1 w-full font-mono'
               value    ={variable.key}
@@ -131,7 +131,7 @@ export default function Edit({
             />
 
             <Button
-              className='mini w-fit h-fit'
+              className='mini w-fit h-auto'
 
               icon={faTrash}
 
