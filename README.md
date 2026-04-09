@@ -4,47 +4,85 @@
 
 ## what this is.
 
-`robert's secrets` is a browser app for organizing sensitive material—api-style tokens, ssh key pairs, long notes, and anything else you would rather not paste into a random text file. you work inside named collections; each row is a secret with a type, a name, optional tags, and (when you export) a single json document you save wherever you want. it is a structured notebook for secrets, not a cloud password manager. there is no signup, no shared database, and no sync layer, only the page in front of you and files you explicitly read or write.
+`robert's secrets` is a browser app for organizing sensitive material. api-style
+tokens, ssh key pairs, name/value lists like a small `.env`, username and
+password pairs, long notes, and anything else you would rather not paste into a
+random text file. you work in one collection at a time with a title at the top;
+each row is a secret with a type, a name, and optional tags. when you export,
+you get a single json file to save wherever you want. it is not a cloud password
+manager: no signup, no shared database, and no automatic sync—only the page in
+front of you and files you explicitly open or save.
 
 ## privacy and data flow.
 
-your collections are not uploaded anywhere. the app has no backend, no accounts, and no sync service. there is no code path that sends your secrets over the network or saves them to browser storage (nothing is written to `localStorage` or similar). while you work, everything lives in ordinary page memory; if you close or refresh the tab without exporting, that session’s data is gone.
+your collections are not uploaded anywhere. there is no backend, no accounts,
+and nothing is written to browser storage like `localStorage`. while you work,
+data lives in normal page memory; if you close or refresh without exporting,
+that session is lost.
 
-loading the hosted site uses normal web traffic only to fetch the static html, scripts, and assets that make the app run—like any webpage. after that, editing, generating keys, copying to the clipboard, and importing files happen on your machine. the clipboard and file apis are local to your browser.
+loading the site only fetches the static page and scripts, the same as any
+website. after that, editing, generating keys, copying, and opening or saving
+files all happen on your device.
 
-if you want to double-check, open developer tools, watch the network tab, and use sample data: you will see no requests carrying your sensitive data.
+## what you can store.
 
-## what gets stored (in a file you choose).
+exported files are json (you can use a `.secrets` or `.json` extension). each
+secret keeps a stable id, name, tags, and type-specific content. you pick the
+type when you create a secret; you cannot change the type later.
 
-everything is ordinary json you can save as `.secrets` or `.json`. a collection has a title and an ordered list of secrets. each secret has a stable id, a name, optional tags, and timestamps for when it was created and last updated.
+| type.                  | what it’s for.             |
+|:---------------------- |:-------------------------- |
+| environment variables. | a list of keys and values. |
+| password.              | a username and a password. |
+| plain text.            | one block of text.         |
+| ssh key.               | ssh keypair.               |
+| token.                 | secret tokens.             |
 
-secrets are typed so you can be precise about what each row represents. you pick the type when you create a secret; it does not change later.
+to save a new or edited secret you need a name and valid content for that type
+(for example non-empty text for plain text and token, both user and password
+filled for a password pair).
 
-| type       | what it holds                                                                                                                                                               |
-|:---------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| plain text | one text `value`—configuration snippets, notes, or anything you want to treat as generic text.                                                                              |
-| token      | one text `value` with the same shape as plain text in the file, but labeled separately in the ui so you can keep api keys and similar material distinct from general notes. |
-| ssh key    | a `public` and `private` string—either pasted or generated in the browser (rsa, ecdsa, or ed25519 via `@peculiar/ssh`).                                                     |
+## using the app.
 
-plain-text and token secrets must have a non-empty value before you can save them. ssh entries need both halves filled (or generated) in a way that passes validation in the editor.
+tag secrets with free-form labels, expand rows to see details and masked values,
+move rows up or down, open a row to edit or delete it, and use show/hide and
+copy where it helps. if you close the editor with unsaved changes, you’ll be
+asked to confirm.
 
-## flexibility in the ui.
+## backup and restore.
 
-you can tag secrets with free-form labels, expand rows to see metadata and masked values, reorder entries, edit in a modal, or delete. sensitive fields support show/hide and copy using the browser’s clipboard api. the design stays flexible (tags, types, ordering) and strict about types and validation so what you store matches what you think you stored.
+use **import** and **export** to read and write files on your machine. if a file
+is not in the expected format, the app will tell you. export picks a sensible
+default filename from your last import or the collection title when possible;
+the final path is always yours in the save dialog.
 
-## keeping a backup.
+## running locally.
 
-use import and export to read and write files on disk. exported json is pretty-printed. the filename for export is chosen from your last import, or from a slug of the collection title, or a simple default—always under your control, like any save dialog.
-
-## developing this repo.
+use a recent node.js (the docker build targets node 20). from the repo root:
 
 ```bash
 npm install
 npm run dev
 ```
 
-- `npm run build` — typescript check and production build.
-- `npm run preview` — serve the production build locally.
-- `npm run lint` — eslint.
+that starts the vite dev server with hot reload. other useful commands:
 
-built with react, vite, typescript, and tailwind css. the output is static files; a dockerfile and `captain-definition` are included for caprover-style deployment.
+| command.           | what it does.                                      |
+|:------------------ |:-------------------------------------------------- |
+| `npm run build`    | typecheck and emit the static site into `dist/`.   |
+| `npm run preview`  | serve the production build locally.                |
+| `npm run lint`     | run eslint.                                        |
+
+## deployment.
+
+the dockerfile builds the app with node, copies `dist/` into a minimal image,
+and serves it with busybox `httpd` on port 80.
+
+for this repository, a github actions workflow runs on every push to `main`: it
+builds that docker image, pushes it to ghcr.io as
+`ghcr.io/<owner>/secrets:<commit-sha>`, then runs the caprover cli to deploy
+that image. set the repository (or environment) secrets `CAPROVER_SERVER`,
+`CAPROVER_APP`, and `CAPROVER_APP_TOKEN`.
+
+to deploy elsewhere, run the container built from the dockerfile (expose port
+80) or serve the contents of `dist/` with any static host.
